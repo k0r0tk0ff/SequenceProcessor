@@ -25,7 +25,6 @@ public class SettingsFromFile implements Settings {
         try {
             properties.load(input);
         } catch (IOException e) {
-            LOG.error(".......................................................................");
             LOG.error(e.toString());
             LOG.error(".......................................................................");
         } finally {
@@ -33,7 +32,6 @@ public class SettingsFromFile implements Settings {
                 try {
                     input.close();
                 } catch (IOException e) {
-                    LOG.error(".......................................................................");
                     LOG.error(e.toString());
                     LOG.error(".......................................................................");
                 }
@@ -44,7 +42,7 @@ public class SettingsFromFile implements Settings {
                     LOG.debug("key = jdbc.login     value = " + properties.getProperty("jdbc.login"));
                     LOG.debug("key = jdbc.password  value = " + properties.getProperty("jdbc.password"));
                     LOG.debug("key = n              value = " + properties.getProperty("n"));
-                    LOG.debug("................................................");
+                    LOG.debug(".......................................................................");
                 }
             }
         }

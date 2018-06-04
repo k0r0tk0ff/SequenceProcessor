@@ -6,7 +6,7 @@ import ru.k0r0tk0ff.starter.Starter;
 
 /**
  * Created by k0r0tk0ff
- * @since +1.6
+ * @since +1.8
  */
 public class Main {
     public static void main(String[] args) {
