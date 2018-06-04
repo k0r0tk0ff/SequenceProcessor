@@ -9,10 +9,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
- * Created by korotkov_a_a on 04.06.2018.
+ * Write data to database.
  */
 public class DataWriterImpl implements DataWriter {
-    Connection connection = null;
+    private Connection connection = null;
 
     public DataWriterImpl(Connection connection) {
         this.connection = connection;
@@ -20,20 +20,16 @@ public class DataWriterImpl implements DataWriter {
 
     private static final Logger LOG  = LoggerFactory.getLogger(DataWriterImpl.class);
 
-    final String createTable = "create TABLE TEST (field INTEGER);";
-    final String dropTable = "DROP TABLE TEST;";
+    final private String createTable = "CREATE TABLE IF NOT EXISTS TEST (field INTEGER);";
+    final private String dropTable = "TRUNCATE TABLE public.TEST;";
 
-    Statement statementForDrop;
-    Statement statementCreateTable;
-    Statement statementForInsertData;
-
-    public void dropDataInDb() {
+    public void truncateTable() {
         try {
-            statementForDrop = connection.createStatement();
+            Statement statementForDrop = connection.createStatement();
             statementForDrop.execute(dropTable);
 
             if(LOG.isDebugEnabled()) {
-                LOG.debug(" Drop data success !!!  ..............");
+                LOG.debug(" Drop data success ..............");
                 LOG.debug(".......................................................................");
             }
             statementForDrop.close();
@@ -45,17 +41,17 @@ public class DataWriterImpl implements DataWriter {
 
     public void createTableInDb() {
         try {
-            statementCreateTable = connection.createStatement();
+            Statement statementCreateTable = connection.createStatement();
             statementCreateTable.execute(createTable);
 
             if(LOG.isDebugEnabled()) {
-                LOG.debug(" Create table success !!!  ..............");
+                LOG.debug(" Create table success   ..............");
                 LOG.debug(".......................................................................");
             }
             statementCreateTable.close();
         } catch (SQLException e) {
             LOG.error(".......................................................................");
-            LOG.error("Create table failed !!! ..............");
+            LOG.error("Create table failed  ..............");
             LOG.error(e.toString());
         }
     }
@@ -63,8 +59,9 @@ public class DataWriterImpl implements DataWriter {
 
     public void insertDataToDb(int n) {
         try {
-            statementForInsertData = connection.createStatement();
+            Statement statementForInsertData = connection.createStatement();
             ArrayList<String> queries = new ArrayList<>();
+
             for (int i = 1; i<n+1; i++) {
                 queries.add(String.format("INSERT into TEST (field) VALUES ('%s')", i));
             }
@@ -76,13 +73,13 @@ public class DataWriterImpl implements DataWriter {
             statementForInsertData.close();
 
             if(LOG.isDebugEnabled()) {
-                LOG.debug(" Insert data success!!  ..............");
+                LOG.debug(" Insert data success  ..............");
                 LOG.debug(".......................................................................");
             }
 
         } catch (SQLException e) {
             LOG.error(".......................................................................");
-            LOG.error("Insert data failed !!! ..............");
+            LOG.error("Insert data failed ..............");
             LOG.error(e.toString());
         }
     }

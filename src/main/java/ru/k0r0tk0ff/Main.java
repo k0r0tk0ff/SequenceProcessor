@@ -4,6 +4,8 @@ import ru.k0r0tk0ff.configuration.Settings;
 import ru.k0r0tk0ff.configuration.SettingsFromFile;
 import ru.k0r0tk0ff.starter.Starter;
 
+import java.sql.ResultSet;
+
 /**
  * Created by k0r0tk0ff
  * @since +1.8
@@ -16,21 +18,19 @@ public class Main {
         settings.loadConfigurationSettings();
 
         Starter starter = new Starter();
-/*        starter.setN(Integer.parseInt(settings.getValue("n")));
+        starter.setN(Integer.parseInt(settings.getValue("n")));
         starter.setUrl(settings.getValue("jdbc.url"));
         starter.setLogin(settings.getValue("jdbc.login"));
         starter.setPassword(settings.getValue("jdbc.password"));
 
-        // Get connection to DB
-        Connection connection = starter.getConnectionToDB();
-
-        // Insert in to DB values
-        starter.insertDataToDB(connection);
+        starter.initializeDataResources();
+        starter.createTableIfNotExistAndFillData();
 
         //  Get data from DB
-        ResultSet resultSet = starter.getDataFromDb(connection);
+        ResultSet resultSet = starter.getDataFromDb();
 
-        // Generate XML from result of query to DB
+
+      /*  // Generate XML from result of query to DB
         //xmlAsAString = starter.generateXml(resultSet);
         starter.generateXml(resultSet);
 
@@ -39,5 +39,7 @@ public class Main {
 
         //  Parse file to arraylist and get sum
         starter.xmlParserToArrayListAndSum("2.xml");*/
+
+        starter.closeConnection();
     }
 }

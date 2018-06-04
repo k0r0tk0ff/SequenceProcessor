@@ -19,7 +19,7 @@ public class DataReaderImpl implements DataReader{
     public ResultSet getDataFromDb() {
         ResultSet resultSet = null;
         PreparedStatement preparedStatement;
-        String sqlQuery = "SELECT * FROM TEST";
+        String sqlQuery = "SELECT field FROM PUBLIC.TEST";
             try {
                 preparedStatement = connection.prepareStatement(sqlQuery);
                 resultSet = preparedStatement.executeQuery();
@@ -29,7 +29,7 @@ public class DataReaderImpl implements DataReader{
             }
 
         if(LOG.isDebugEnabled()) {
-            LOG.debug(" Select success !!!  ..............");
+            LOG.debug(" Select success ..............");
             LOG.debug(".......................................................................");
         }
 

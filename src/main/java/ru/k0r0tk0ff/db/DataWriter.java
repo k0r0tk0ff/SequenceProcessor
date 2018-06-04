@@ -4,7 +4,7 @@ import java.sql.Connection;
 
 public interface DataWriter {
 
-    void dropDataInDb();
+    void truncateTable();
 
     void createTableInDb();
 

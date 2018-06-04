@@ -1,17 +1,41 @@
 package ru.k0r0tk0ff.starter;
 
+import ru.k0r0tk0ff.db.*;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+
 /**
- * Created by k0r0tk0ff
- * Main class of program
+ *  Main class of program
  */
 public class Starter {
-    int n;
-    String url;
-    String login;
-    String password;
+    private int n;
+    private String url;
+    private String login;
+    private String password;
+    private Connection connection;
+    private DataResource dataResource = null;
+
+    public void initializeDataResources() {
+        this.dataResource = new DataResourceImpl(
+                getUrl(),
+                getLogin(),
+                getPassword()
+        );
+
+        this.connection = dataResource.getConnection();
+    }
+
+    private Connection getConnection(DataResource dataResource) {
+        return dataResource.getConnection();
+    }
+
+    public void closeConnection() {
+        this.dataResource.closeConnection(this.connection);
+    }
 
     //Getters and Setters for class fields
-    public int getN() {
+    private int getN() {
         return n;
     }
 
@@ -19,7 +43,7 @@ public class Starter {
         this.n = n;
     }
 
-    public String getUrl() {
+    private String getUrl() {
         return url;
     }
 
@@ -27,7 +51,7 @@ public class Starter {
         this.url = url;
     }
 
-    public String getLogin() {
+    private String getLogin() {
         return login;
     }
 
@@ -35,11 +59,25 @@ public class Starter {
         this.login = login;
     }
 
-    public String getPassword() {
+    private String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void createTableIfNotExistAndFillData() {
+        DataWriter dataWriter = new DataWriterImpl(connection);
+        dataWriter.createTableInDb();
+        dataWriter.truncateTable();
+        dataWriter.insertDataToDb(getN());
+    }
+
+    public ResultSet getDataFromDb() {
+        DataReader dataReader = new DataReaderImpl(connection);
+        ResultSet resultSet;
+        resultSet = dataReader.getDataFromDb();
+        return resultSet;
     }
 }

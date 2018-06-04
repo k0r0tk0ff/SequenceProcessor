@@ -8,12 +8,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DataSourceImpl implements DataSource{
-    String url;
-    String login;
-    String password;
+public class DataResourceImpl implements DataResource {
+    private String url;
+    private String login;
+    private String password;
 
-    public DataSourceImpl(String url, String login, String password) {
+    public DataResourceImpl(String url, String login, String password) {
         this.url = url;
         this.login = login;
         this.password = password;
@@ -21,7 +21,7 @@ public class DataSourceImpl implements DataSource{
 
     private static final Logger LOG  = LoggerFactory.getLogger(SettingsFromFile.class);
 
-    Connection connection = null;
+    private Connection connection = null;
 
     public Connection getConnection() {
 
