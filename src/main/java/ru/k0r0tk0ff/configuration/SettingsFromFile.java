@@ -18,7 +18,7 @@ public class SettingsFromFile implements Settings {
     private Properties properties;
 
     @Override
-    public void loadConfigurationSettings() {
+    public void load() {
         properties = new Properties();
         InputStream input = this.getClass().getClassLoader().getResourceAsStream("parameters.properties");
 

@@ -6,7 +6,7 @@ package ru.k0r0tk0ff.configuration;
  */
 public interface Settings {
 
-    void loadConfigurationSettings();
+    void load();
 
     String getValue(String key);
 }

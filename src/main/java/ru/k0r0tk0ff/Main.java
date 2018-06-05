@@ -3,8 +3,8 @@ package ru.k0r0tk0ff;
 import ru.k0r0tk0ff.configuration.Settings;
 import ru.k0r0tk0ff.configuration.SettingsFromFile;
 import ru.k0r0tk0ff.starter.Starter;
+import ru.k0r0tk0ff.starter.StarterImpl;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -16,16 +16,17 @@ public class Main {
 
         //Get variables from file with settings - "parameters.properties"
         Settings settings = new SettingsFromFile();
-        settings.loadConfigurationSettings();
+        settings.load();
 
-        Starter starter = new Starter();
+        Starter starter = new StarterImpl();
         starter.setN(Integer.parseInt(settings.getValue("n")));
         starter.setUrl(settings.getValue("jdbc.url"));
         starter.setLogin(settings.getValue("jdbc.login"));
         starter.setPassword(settings.getValue("jdbc.password"));
 
         starter.createConnectionToDb();
-        starter.createTableIfNotExistAndFillData();
+        starter.createTableIfNotExist();
+        starter.uploadDataToTable();
 
         //  Get converted data from DB
         ArrayList<String> list = starter.getDataFromDb();
