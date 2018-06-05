@@ -5,6 +5,7 @@ import ru.k0r0tk0ff.configuration.SettingsFromFile;
 import ru.k0r0tk0ff.starter.Starter;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  * Created by k0r0tk0ff
@@ -23,17 +24,16 @@ public class Main {
         starter.setLogin(settings.getValue("jdbc.login"));
         starter.setPassword(settings.getValue("jdbc.password"));
 
-        starter.initializeDataResources();
+        starter.createConnectionToDb();
         starter.createTableIfNotExistAndFillData();
 
-        //  Get data from DB
-        ResultSet resultSet = starter.getDataFromDb();
+        //  Get converted data from DB
+        ArrayList<String> list = starter.getDataFromDb();
 
+        // Generate XML from result of query to DB
+        starter.generateXml(list);
 
-      /*  // Generate XML from result of query to DB
-        //xmlAsAString = starter.generateXml(resultSet);
-        starter.generateXml(resultSet);
-
+        /*
         //  Transform file "1.xml" to "2.xml" with XSLT
         starter.xsltTransform("1.xml");
 

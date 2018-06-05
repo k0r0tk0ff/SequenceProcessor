@@ -36,8 +36,7 @@ public class DataResourceImpl implements DataResource {
         }
 
         if(LOG.isDebugEnabled()) {
-            LOG.debug(" Get connection success  ..............");
-            LOG.debug(".......................................................................");
+            LOG.debug(" Get connection success");
         }
         return connection;
     }
@@ -48,8 +47,7 @@ public class DataResourceImpl implements DataResource {
                 connection.close();
 
                 if(LOG.isDebugEnabled()) {
-                    LOG.debug(" Close connection success  ..............");
-                    LOG.debug(".......................................................................");
+                    LOG.debug(" Close connection success");
                 }
             }
         }

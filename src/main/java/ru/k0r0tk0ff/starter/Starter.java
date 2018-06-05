@@ -1,9 +1,14 @@
 package ru.k0r0tk0ff.starter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.k0r0tk0ff.db.*;
+import ru.k0r0tk0ff.xml.XmlGenerator;
+import ru.k0r0tk0ff.xml.XmlGeneratorImpl;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *  Main class of program
@@ -16,7 +21,7 @@ public class Starter {
     private Connection connection;
     private DataResource dataResource = null;
 
-    public void initializeDataResources() {
+    public void createConnectionToDb() {
         this.dataResource = new DataResourceImpl(
                 getUrl(),
                 getLogin(),
@@ -25,6 +30,8 @@ public class Starter {
 
         this.connection = dataResource.getConnection();
     }
+
+    private static final Logger LOG  = LoggerFactory.getLogger(Starter.class);
 
     private Connection getConnection(DataResource dataResource) {
         return dataResource.getConnection();
@@ -74,10 +81,48 @@ public class Starter {
         dataWriter.insertDataToDb(getN());
     }
 
-    public ResultSet getDataFromDb() {
-        DataReader dataReader = new DataReaderImpl(connection);
+    private ResultSet getRawDataFromDb() throws Exception {
         ResultSet resultSet;
-        resultSet = dataReader.getDataFromDb();
+
+        DataReader dataReader = new DataReaderImpl(connection);
+
+        resultSet = dataReader.getData();
         return resultSet;
+    }
+
+    public ArrayList<String> getDataFromDb() {
+        ArrayList<String> list = new ArrayList<>();
+        ResultSet resultSet;
+
+        try {
+            resultSet = getRawDataFromDb();
+
+            while (resultSet.next()) {
+                list.add(resultSet.getString(1));
+            }
+        } catch (Exception e) {
+            LOG.error(e.toString());
+            LOG.error(".......................................................................");
+        }
+
+        if(LOG.isDebugEnabled()) {
+            LOG.debug(" Get and convert data from db success ");
+        }
+
+        return list;
+    }
+
+    public void generateXml(ArrayList<String> list) {
+        XmlGenerator xmlGenerator = new XmlGeneratorImpl();
+        try {
+            xmlGenerator.generateXml(list);
+        } catch (Exception e) {
+            LOG.error(e.toString());
+            LOG.error(".......................................................................");
+        }
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(" Generate XML success");
+        }
     }
 }

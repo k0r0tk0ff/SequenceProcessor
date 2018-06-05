@@ -29,8 +29,7 @@ public class DataWriterImpl implements DataWriter {
             statementForDrop.execute(dropTable);
 
             if(LOG.isDebugEnabled()) {
-                LOG.debug(" Drop data success ..............");
-                LOG.debug(".......................................................................");
+                LOG.debug(" Truncate table success ");
             }
             statementForDrop.close();
         } catch (SQLException e) {
@@ -45,8 +44,7 @@ public class DataWriterImpl implements DataWriter {
             statementCreateTable.execute(createTable);
 
             if(LOG.isDebugEnabled()) {
-                LOG.debug(" Create table success   ..............");
-                LOG.debug(".......................................................................");
+                LOG.debug(" Create table success ");
             }
             statementCreateTable.close();
         } catch (SQLException e) {
@@ -73,8 +71,7 @@ public class DataWriterImpl implements DataWriter {
             statementForInsertData.close();
 
             if(LOG.isDebugEnabled()) {
-                LOG.debug(" Insert data success  ..............");
-                LOG.debug(".......................................................................");
+                LOG.debug(" Insert data success");
             }
 
         } catch (SQLException e) {

@@ -14,24 +14,13 @@ public class DataReaderImpl implements DataReader{
         this.connection = connection;
     }
 
-    private static final Logger LOG  = LoggerFactory.getLogger(DataReaderImpl.class);
-
-    public ResultSet getDataFromDb() {
-        ResultSet resultSet = null;
+    public ResultSet getData() throws Exception {
+        ResultSet resultSet;
         PreparedStatement preparedStatement;
         String sqlQuery = "SELECT field FROM PUBLIC.TEST";
-            try {
-                preparedStatement = connection.prepareStatement(sqlQuery);
-                resultSet = preparedStatement.executeQuery();
-            } catch (SQLException e) {
-                LOG.error(e.toString());
-                LOG.error(".......................................................................");
-            }
 
-        if(LOG.isDebugEnabled()) {
-            LOG.debug(" Select success ..............");
-            LOG.debug(".......................................................................");
-        }
+        preparedStatement = connection.prepareStatement(sqlQuery);
+        resultSet = preparedStatement.executeQuery();
 
         return resultSet;
     }
