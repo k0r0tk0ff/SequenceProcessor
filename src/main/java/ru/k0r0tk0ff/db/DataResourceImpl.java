@@ -30,14 +30,16 @@ public class DataResourceImpl implements DataResource {
                     url,
                     login,
                     password);
+
+            if(LOG.isDebugEnabled()) {
+                LOG.debug(" Get connection success");
+            }
         } catch (SQLException e) {
             LOG.error(e.toString());
             LOG.error(".......................................................................");
         }
 
-        if(LOG.isDebugEnabled()) {
-            LOG.debug(" Get connection success");
-        }
+
         return connection;
     }
 
