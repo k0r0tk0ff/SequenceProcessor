@@ -1,11 +1,10 @@
 package ru.k0r0tk0ff.starter;
 
+import java.sql.Connection;
 import java.util.Collection;
 
 public interface Starter {
-    void createConnectionToDb();
-
-    void closeConnection();
+    Connection createConnectionToDb();
 
     void setN(int n);
 
@@ -15,17 +14,17 @@ public interface Starter {
 
     void setPassword(String password);
 
-    void createTableIfNotExist();
+    void createTableIfNotExist(Connection connection);
 
-    void uploadDataToTable();
+    void uploadDataToTable(Connection connection) throws Exception;
 
-    Collection<String> getDataFromDb();
+    Collection<String> getDataFromDb(Connection connection) throws Exception;
 
-    void generateXml(Collection<String> list);
+    void generateXml(Collection<String> list) throws Exception;
 
-    void xsltTransform(String s, String s1);
+    void xsltTransform(String s, String s1) throws Exception;
 
-    public Collection<Integer> getDataFromResource(String resource);
+    public Collection<Integer> getDataFromResource(String resource) throws Exception;
 
     Integer sumOfElements(Collection<Integer> data);
 }

@@ -13,42 +13,25 @@ import java.util.Properties;
  */
 public class SettingsFromFile implements Settings {
 
-    private static final Logger LOG  = LoggerFactory.getLogger(SettingsFromFile.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SettingsFromFile.class);
 
     private Properties properties;
 
-    @Override
-    public void load() {
+    public void load(InputStream input) throws Exception {
         properties = new Properties();
-        InputStream input = this.getClass().getClassLoader().getResourceAsStream("parameters.properties");
 
-        try {
-            properties.load(input);
-        } catch (IOException e) {
-            LOG.error(e.toString());
-            LOG.error(".......................................................................");
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    LOG.error(e.toString());
-                    LOG.error(".......................................................................");
-                }
+        properties.load(input);
 
-                if(LOG.isDebugEnabled()) {
-                    LOG.debug("Load properties from file success ..............");
-                    LOG.debug("key = jdbc.url       value = " + properties.getProperty("jdbc.url"));
-                    LOG.debug("key = jdbc.login     value = " + properties.getProperty("jdbc.login"));
-                    LOG.debug("key = jdbc.password  value = " + properties.getProperty("jdbc.password"));
-                    LOG.debug("key = n              value = " + properties.getProperty("n"));
-                    LOG.debug(".......................................................................");
-                }
-            }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Load properties from file success ..............");
+            LOG.debug("key = jdbc.url       value = " + properties.getProperty("jdbc.url"));
+            LOG.debug("key = jdbc.login     value = " + properties.getProperty("jdbc.login"));
+            LOG.debug("key = jdbc.password  value = " + properties.getProperty("jdbc.password"));
+            LOG.debug("key = n              value = " + properties.getProperty("n"));
+            LOG.debug(".......................................................................");
         }
     }
 
-    @Override
     public String getValue(String key) {
         return properties.getProperty(key);
     }

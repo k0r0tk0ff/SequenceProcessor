@@ -44,33 +44,31 @@ public class DbDaoImpl implements Dao {
         while (resultSet.next()) {
             list.add(resultSet.getString(1));
         }
+
+        resultSet.close();
         return list;
     }
 
-    public void insertData(int n) {
-        try {
-            Statement statementForInsertData = connection.createStatement();
-            ArrayList<String> queries = new ArrayList<>();
+    public void insertData(int n) throws Exception {
 
-            for (int i = 1; i<n+1; i++) {
-                queries.add(String.format("INSERT into TEST (field) VALUES ('%s')", i));
-            }
+        Statement statementForInsertData = connection.createStatement();
+        ArrayList<String> queries = new ArrayList<>();
 
-            for (String query : queries) {
-                statementForInsertData.addBatch(query);
-            }
-            statementForInsertData.executeBatch();
-            statementForInsertData.close();
-
-            if(LOG.isDebugEnabled()) {
-                LOG.debug(" Insert data success");
-            }
-
-        } catch (SQLException e) {
-            LOG.error(".......................................................................");
-            LOG.error("Insert data failed ..............");
-            LOG.error(e.toString());
+        for (int i = 1; i < n + 1; i++) {
+            queries.add(String.format("INSERT into TEST (field) VALUES ('%s')", i));
         }
+
+        for (String query : queries) {
+            statementForInsertData.addBatch(query);
+        }
+        statementForInsertData.executeBatch();
+        statementForInsertData.close();
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(" Insert data success");
+        }
+
+
     }
 }
 

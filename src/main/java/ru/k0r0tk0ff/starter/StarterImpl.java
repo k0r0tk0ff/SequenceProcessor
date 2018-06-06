@@ -13,8 +13,7 @@ import ru.k0r0tk0ff.xslt.XsltTransformer;
 import ru.k0r0tk0ff.xslt.XsltTransformerImpl;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.Collection;
 
 /**
@@ -28,24 +27,20 @@ public class StarterImpl implements Starter{
     private Connection connection;
     private DataResource dataResource = null;
 
-    public void createConnectionToDb() {
+    public Connection createConnectionToDb() {
         this.dataResource = new DataResourceImpl(
                 getUrl(),
                 getLogin(),
                 getPassword()
         );
 
-        this.connection = dataResource.getConnection();
+        return dataResource.getConnection();
     }
 
     private static final Logger LOG  = LoggerFactory.getLogger(StarterImpl.class);
 
     private Connection getConnection(DataResource dataResource) {
         return dataResource.getConnection();
-    }
-
-    public void closeConnection() {
-        this.dataResource.closeConnection(this.connection);
     }
 
     //Getters and Setters for class fields
@@ -81,78 +76,54 @@ public class StarterImpl implements Starter{
         this.password = password;
     }
 
-    public void createTableIfNotExist() {
+    public void createTableIfNotExist(Connection connection) {
         DaoEnvironmentCreator daoEnvCreatorImpl = new DaoEnvironmentCreatorImpl(connection);
         daoEnvCreatorImpl.createTableInDbIfTableNotExist();
         daoEnvCreatorImpl.truncateTable();
-
     }
 
-    public void uploadDataToTable() {
+    public void uploadDataToTable(Connection connection) throws Exception{
         Dao daoImpl = new DbDaoImpl(connection);
         daoImpl.insertData(getN());
     }
 
-    public Collection<String> getDataFromDb() {
+    public Collection<String> getDataFromDb(Connection connection) throws Exception{
         Collection<String> list = null;
         Dao dao = new DbDaoImpl(connection);
 
-        try {
-            list = dao.getData();
-        } catch (Exception e) {
-            LOG.error(e.toString());
-            LOG.error(".......................................................................");
-        }
+        list = dao.getData();
 
         if(LOG.isDebugEnabled()) {
             LOG.debug(" Get and convert data from db success ");
         }
-
         return list;
     }
 
-    public void generateXml(Collection<String> list) {
+    public void generateXml(Collection<String> list) throws Exception {
         XmlGenerator xmlGenerator = new XmlGeneratorImpl();
-        try {
-            xmlGenerator.generateXml(list);
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(" Generate XML success");
-            }
-        } catch (Exception e) {
-            LOG.error(e.toString());
-            LOG.error(".......................................................................");
+        xmlGenerator.generateXml(list);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(" Generate XML success");
         }
     }
 
-    public void xsltTransform(String xmlFileName, String xsltFileName) {
+    public void xsltTransform(String xmlFileName, String xsltFileName) throws Exception{
         XsltTransformer transformer = new XsltTransformerImpl();
-        try {
-            transformer.transform("1.xml", "Transform.xslt");
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(" Transform XML with use xslt success");
-            }
-        } catch (Exception e) {
-            LOG.error(e.toString());
-            LOG.error(".......................................................................");
+        transformer.transform("1.xml", "Transform.xslt");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(" Transform XML with use xslt success");
         }
     }
 
-    public Collection<Integer> getDataFromResource(String resource) {
+    public Collection<Integer> getDataFromResource(String resource) throws Exception{
         ParserResourceToData parser = new FileParser();
         Collection<Integer> parsedData = null;
 
-        try {
             parsedData = parser.parser(resource);
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug(" Parse file " + resource + " success");
             }
-        } catch (Exception e) {
-            LOG.error(e.toString());
-            LOG.error(".......................................................................");
-        }
 
         return parsedData;
     }

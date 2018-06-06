@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public interface Dao {
 
-    void insertData(int n);
+    void insertData(int n) throws Exception;
 
     Collection<String> getData() throws Exception;
 
