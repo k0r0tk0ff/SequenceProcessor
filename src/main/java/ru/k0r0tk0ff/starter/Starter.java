@@ -22,4 +22,6 @@ public interface Starter {
     Collection<String> getDataFromDb();
 
     void generateXml(Collection<String> list);
+
+    void xsltTransform(String s, String s1);
 }

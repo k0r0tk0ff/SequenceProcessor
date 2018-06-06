@@ -35,10 +35,11 @@ public class Main {
         // Generate XML from result of query to DB
         starter.generateXml(list);
 
-        /*
-        //  Transform file "1.xml" to "2.xml" with XSLT
-        starter.xsltTransform("1.xml");
 
+        //  Transform file "1.xml" to "2.xml" with XSLT
+        starter.xsltTransform("1.xml", "Transform.xslt");
+
+        /*
         //  Parse file to arraylist and get sum
         starter.xmlParserToArrayListAndSum("2.xml");*/
 

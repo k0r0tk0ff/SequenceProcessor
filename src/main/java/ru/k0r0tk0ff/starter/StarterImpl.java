@@ -7,6 +7,8 @@ import ru.k0r0tk0ff.dao.DbDaoImpl;
 import ru.k0r0tk0ff.db.*;
 import ru.k0r0tk0ff.xml.XmlGenerator;
 import ru.k0r0tk0ff.xml.XmlGeneratorImpl;
+import ru.k0r0tk0ff.xslt.XsltTransformer;
+import ru.k0r0tk0ff.xslt.XsltTransformerImpl;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -111,13 +113,27 @@ public class StarterImpl implements Starter{
         XmlGenerator xmlGenerator = new XmlGeneratorImpl();
         try {
             xmlGenerator.generateXml(list);
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(" Generate XML success");
+            }
         } catch (Exception e) {
             LOG.error(e.toString());
             LOG.error(".......................................................................");
         }
+    }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(" Generate XML success");
+    public void xsltTransform(String xmlFileName, String xsltFileName) {
+        XsltTransformer transformer = new XsltTransformerImpl();
+        try {
+            transformer.transform("1.xml", "Transform.xslt");
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(" Transform XML with use xslt success");
+            }
+        } catch (Exception e) {
+            LOG.error(e.toString());
+            LOG.error(".......................................................................");
         }
     }
 }
