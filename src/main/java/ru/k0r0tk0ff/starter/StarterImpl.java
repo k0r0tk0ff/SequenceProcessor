@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import ru.k0r0tk0ff.dao.Dao;
 import ru.k0r0tk0ff.dao.DbDaoImpl;
 import ru.k0r0tk0ff.db.*;
+import ru.k0r0tk0ff.parser.FileParser;
+import ru.k0r0tk0ff.parser.ParserResourceToData;
 import ru.k0r0tk0ff.xml.XmlGenerator;
 import ru.k0r0tk0ff.xml.XmlGeneratorImpl;
 import ru.k0r0tk0ff.xslt.XsltTransformer;
@@ -135,5 +137,28 @@ public class StarterImpl implements Starter{
             LOG.error(e.toString());
             LOG.error(".......................................................................");
         }
+    }
+
+    public Collection<Integer> getDataFromResource(String resource) {
+        ParserResourceToData parser = new FileParser();
+        Collection<Integer> parsedData = null;
+
+        try {
+            parsedData = parser.parser(resource);
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(" Parse file " + resource + " success");
+            }
+        } catch (Exception e) {
+            LOG.error(e.toString());
+            LOG.error(".......................................................................");
+        }
+
+        return parsedData;
+    }
+
+
+    public Integer sumOfElements(Collection<Integer> data) {
+        return data.stream().reduce((s1,s2) -> s1+s2).orElse(0);
     }
 }

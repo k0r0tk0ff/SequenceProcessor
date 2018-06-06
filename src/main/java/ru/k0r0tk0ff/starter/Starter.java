@@ -24,4 +24,8 @@ public interface Starter {
     void generateXml(Collection<String> list);
 
     void xsltTransform(String s, String s1);
+
+    public Collection<Integer> getDataFromResource(String resource);
+
+    Integer sumOfElements(Collection<Integer> data);
 }

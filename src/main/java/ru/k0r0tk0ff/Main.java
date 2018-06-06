@@ -15,6 +15,8 @@ import java.util.Collection;
 public class Main {
     public static void main(String[] args) {
 
+        Integer sum;
+
         //Get variables from file with settings - "parameters.properties"
         Settings settings = new SettingsFromFile();
         settings.load();
@@ -39,9 +41,11 @@ public class Main {
         //  Transform file "1.xml" to "2.xml" with XSLT
         starter.xsltTransform("1.xml", "Transform.xslt");
 
-        /*
+
         //  Parse file to arraylist and get sum
-        starter.xmlParserToArrayListAndSum("2.xml");*/
+        sum = starter.sumOfElements(starter.getDataFromResource("2.xml"));
+
+        System.out.println("Sum = " + sum);
 
         starter.closeConnection();
     }
