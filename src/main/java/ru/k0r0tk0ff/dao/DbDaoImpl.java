@@ -1,36 +1,53 @@
-package ru.k0r0tk0ff.db;
+package ru.k0r0tk0ff.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Need for read data from DB
  */
-public class DAOImpl implements DAO {
+public class DbDaoImpl implements Dao {
 
-    private static final Logger LOG  = LoggerFactory.getLogger(DAOImpl.class);
+    private static final Logger LOG  = LoggerFactory.getLogger(DbDaoImpl.class);
 
     private Connection connection = null;
 
-    public DAOImpl(Connection connection) {
+    public DbDaoImpl(Connection connection) {
         this.connection = connection;
     }
 
-    public ResultSet getData() throws Exception {
+    public Collection<String> getData() throws Exception {
         ResultSet resultSet;
-        PreparedStatement preparedStatement;
         String sqlQuery = "SELECT field FROM PUBLIC.TEST";
 
+        resultSet = queryExecutor(sqlQuery);
+
+        return dataConverter(resultSet);
+
+    }
+
+    private ResultSet queryExecutor(String sqlQuery) throws Exception{
+        ResultSet resultSet;
+        PreparedStatement preparedStatement;
         preparedStatement = connection.prepareStatement(sqlQuery);
         resultSet = preparedStatement.executeQuery();
-
         return resultSet;
     }
 
-    public void insertDataToDb(int n) {
+    private Collection<String> dataConverter(ResultSet resultSet) throws Exception {
+        Collection<String> list = new ArrayList<>();
+
+        while (resultSet.next()) {
+            list.add(resultSet.getString(1));
+        }
+        return list;
+    }
+
+    public void insertData(int n) {
         try {
             Statement statementForInsertData = connection.createStatement();
             ArrayList<String> queries = new ArrayList<>();

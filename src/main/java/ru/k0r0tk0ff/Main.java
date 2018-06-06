@@ -6,6 +6,7 @@ import ru.k0r0tk0ff.starter.Starter;
 import ru.k0r0tk0ff.starter.StarterImpl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by k0r0tk0ff
@@ -29,7 +30,7 @@ public class Main {
         starter.uploadDataToTable();
 
         //  Get converted data from DB
-        ArrayList<String> list = starter.getDataFromDb();
+        Collection<String> list = starter.getDataFromDb();
 
         // Generate XML from result of query to DB
         starter.generateXml(list);

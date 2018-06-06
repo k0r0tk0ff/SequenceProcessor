@@ -1,6 +1,6 @@
 package ru.k0r0tk0ff.starter;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 public interface Starter {
     void createConnectionToDb();
@@ -19,7 +19,7 @@ public interface Starter {
 
     void uploadDataToTable();
 
-    ArrayList<String> getDataFromDb();
+    Collection<String> getDataFromDb();
 
-    void generateXml(ArrayList<String> list);
+    void generateXml(Collection<String> list);
 }

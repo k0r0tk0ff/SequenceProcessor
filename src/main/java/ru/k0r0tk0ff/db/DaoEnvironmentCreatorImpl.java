@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Created by user on 6/5/2018.
+ * Create teble (if not exist), truncate table
  */
 public class DaoEnvironmentCreatorImpl implements DaoEnvironmentCreator {
 

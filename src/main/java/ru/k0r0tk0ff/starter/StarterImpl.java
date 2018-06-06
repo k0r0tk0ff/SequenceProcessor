@@ -2,6 +2,8 @@ package ru.k0r0tk0ff.starter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.k0r0tk0ff.dao.Dao;
+import ru.k0r0tk0ff.dao.DbDaoImpl;
 import ru.k0r0tk0ff.db.*;
 import ru.k0r0tk0ff.xml.XmlGenerator;
 import ru.k0r0tk0ff.xml.XmlGeneratorImpl;
@@ -9,6 +11,7 @@ import ru.k0r0tk0ff.xml.XmlGeneratorImpl;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *  Main class of program
@@ -82,29 +85,16 @@ public class StarterImpl implements Starter{
     }
 
     public void uploadDataToTable() {
-        DAO daoImpl = new DAOImpl(connection);
-        daoImpl.insertDataToDb(getN());
+        Dao daoImpl = new DbDaoImpl(connection);
+        daoImpl.insertData(getN());
     }
 
-    private ResultSet getRawDataFromDb() throws Exception {
-        ResultSet resultSet;
-
-        DAO DAO = new DAOImpl(connection);
-
-        resultSet = DAO.getData();
-        return resultSet;
-    }
-
-    public ArrayList<String> getDataFromDb() {
-        ArrayList<String> list = new ArrayList<>();
-        ResultSet resultSet;
+    public Collection<String> getDataFromDb() {
+        Collection<String> list = null;
+        Dao dao = new DbDaoImpl(connection);
 
         try {
-            resultSet = getRawDataFromDb();
-
-            while (resultSet.next()) {
-                list.add(resultSet.getString(1));
-            }
+            list = dao.getData();
         } catch (Exception e) {
             LOG.error(e.toString());
             LOG.error(".......................................................................");
@@ -117,7 +107,7 @@ public class StarterImpl implements Starter{
         return list;
     }
 
-    public void generateXml(ArrayList<String> list) {
+    public void generateXml(Collection<String> list) {
         XmlGenerator xmlGenerator = new XmlGeneratorImpl();
         try {
             xmlGenerator.generateXml(list);
