@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 /**
- * Created by korotkov_a_a on 06.06.2018.
+ * Transform xml file with use xslt-transformation
  */
 public class XsltTransformerImpl implements XsltTransformer {
 
@@ -36,14 +36,8 @@ public class XsltTransformerImpl implements XsltTransformer {
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","2");
         transformer.setOutputProperty(OutputKeys.STANDALONE,"yes");
 
-
         DOMSource source = new DOMSource(document2);
-        StreamResult result = new StreamResult(System.out);
 
-        //for show on screen
-        transformer.transform(source, result);
-
-        //for write to file
         transformer.transform(source, new StreamResult(new FileOutputStream("2.xml")));
     }
 }
