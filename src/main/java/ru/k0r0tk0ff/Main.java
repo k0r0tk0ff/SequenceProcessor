@@ -7,33 +7,43 @@ import ru.k0r0tk0ff.configuration.SettingsFromFile;
 import ru.k0r0tk0ff.starter.Starter;
 import ru.k0r0tk0ff.starter.StarterImpl;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Created by k0r0tk0ff
+ *
  * @since +1.8
  */
 public class Main {
 
-    private static final Logger LOG  = LoggerFactory.getLogger(Main.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
 
         Integer sum;
         Connection connection = null;
-        InputStream input;
+        BufferedReader input = null;
+
+        String propertiesFileName = "parameters.properties";
+        String xsltFileName = "Transform.xslt";
 
         //Get variables from file with settings - "parameters.properties"
-        Settings settings = new SettingsFromFile();
-        input = settings.getClass().getClassLoader().getResourceAsStream("parameters.properties");
+
+        Path path = Paths.get(propertiesFileName);
 
         try {
-            settings.load(input);
+
+            input = Files.newBufferedReader(path, Charset.forName("UTF-8"));
+            Settings settings = new SettingsFromFile(propertiesFileName, input);
+            settings.load();
 
             Starter starter = new StarterImpl();
             starter.setN(Integer.parseInt(settings.getValue("n")));
@@ -43,7 +53,7 @@ public class Main {
 
             connection = starter.createConnectionToDb();
             starter.createTableIfNotExist(connection);
-            starter.createTableIfNotExist(null);
+            starter.createTableIfNotExist(connection);
             starter.uploadDataToTable(connection);
 
             //  Get converted data from DB
@@ -53,7 +63,7 @@ public class Main {
             starter.generateXml(list);
 
             //  Transform file "1.xml" to "2.xml" with XSLT
-            starter.xsltTransform("1.xml", "Transform.xslt");
+            starter.xsltTransform("1.xml", xsltFileName);
 
             //  Parse file to arraylist and get sum
             sum = starter.sumOfElements(starter.getDataFromResource("2.xml"));
@@ -62,7 +72,7 @@ public class Main {
         } catch (Exception e) {
             LOG.error(".......................................................................");
             LOG.error(e.toString());
-            if(LOG.isDebugEnabled()) {
+            if (LOG.isDebugEnabled()) {
                 for (StackTraceElement s : e.getStackTrace()) {
                     LOG.debug(s.toString());
                 }
@@ -77,22 +87,32 @@ public class Main {
             if (connection != null)
                 try {
                     connection.close();
-                    if(LOG.isDebugEnabled()) {
+                    if (LOG.isDebugEnabled()) {
                         LOG.debug(" Close connection success");
                     }
-                } catch (SQLException e) {
-                    LOG.error(e.toString());
+                } catch (SQLException e1) {
                     LOG.error(".......................................................................");
-                }
+                    LOG.error(e1.toString());
+                    if (LOG.isDebugEnabled()) {
+                        for (StackTraceElement s : e1.getStackTrace()) {
+                            LOG.debug(s.toString());
+                        }
+                    }
 
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    LOG.error(e.toString());
-                    LOG.error(".......................................................................");
+                    if (input != null) {
+                        try {
+                            input.close();
+                        } catch (IOException e) {
+                            LOG.error(".......................................................................");
+                            LOG.error(e.toString());
+                            if (LOG.isDebugEnabled()) {
+                                for (StackTraceElement s : e.getStackTrace()) {
+                                    LOG.debug(s.toString());
+                                }
+                            }
+                        }
+                    }
                 }
-            }
         }
     }
 }

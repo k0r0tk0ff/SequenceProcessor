@@ -3,8 +3,13 @@ package ru.k0r0tk0ff.configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
@@ -13,14 +18,24 @@ import java.util.Properties;
  */
 public class SettingsFromFile implements Settings {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SettingsFromFile.class);
+    private BufferedReader reader;
+    private String fileName;
+
+    public SettingsFromFile(String fileName, BufferedReader reader) {
+        this.fileName = fileName;
+        this.reader = reader;
+    }
 
     private Properties properties;
+    private static final Logger LOG = LoggerFactory.getLogger(SettingsFromFile.class);
 
-    public void load(InputStream input) throws Exception {
+    //For load from file in "resources" directory
+    //public void load(InputStream input) throws Exception {
+
+    public void load() throws Exception {
         properties = new Properties();
 
-        properties.load(input);
+        properties.load(reader);
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Load properties from file success ..............");

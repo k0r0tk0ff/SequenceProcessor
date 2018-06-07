@@ -8,7 +8,7 @@ import java.io.InputStream;
  */
 public interface Settings {
 
-    void load(InputStream inputStream) throws Exception;
+    void load() throws Exception;
 
     String getValue(String key);
 }
