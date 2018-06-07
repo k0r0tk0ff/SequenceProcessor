@@ -33,7 +33,6 @@ public class Main {
         input = settings.getClass().getClassLoader().getResourceAsStream("parameters.properties");
 
         try {
-
             settings.load(input);
 
             Starter starter = new StarterImpl();
@@ -43,7 +42,7 @@ public class Main {
             starter.setPassword(settings.getValue("jdbc.password"));
 
             connection = starter.createConnectionToDb();
-            //starter.createTableIfNotExist(connection);
+            starter.createTableIfNotExist(connection);
             starter.createTableIfNotExist(null);
             starter.uploadDataToTable(connection);
 
@@ -61,7 +60,18 @@ public class Main {
 
             System.out.println("Sum = " + sum);
         } catch (Exception e) {
+            LOG.error(".......................................................................");
             LOG.error(e.toString());
+            if(LOG.isDebugEnabled()) {
+                for (StackTraceElement s : e.getStackTrace()) {
+                    LOG.debug(s.toString());
+                }
+                // ??
+                // или просто оставить вместо блока выше if(LOG.isDebugEnabled()) следующее -
+                //e.printStackTrace();
+                // а так, ваще, если StackTraceElement в лог запихать,
+                // то красивый лог получается )))
+            }
             LOG.error(".......................................................................");
         } finally {
             if (connection != null)
