@@ -10,17 +10,17 @@ import java.util.Collection;
 /**
  * Need for read data from DB
  */
-public class DbDaoImpl implements Dao {
+public class PostgresSequenceDao implements SequenceDao {
 
-    private static final Logger LOG  = LoggerFactory.getLogger(DbDaoImpl.class);
+    private static final Logger LOG  = LoggerFactory.getLogger(PostgresSequenceDao.class);
 
     private Connection connection = null;
 
-    public DbDaoImpl(Connection connection) {
+    public PostgresSequenceDao(Connection connection) {
         this.connection = connection;
     }
 
-    public Collection<String> getData() throws Exception {
+    public Collection<String> get() throws Exception {
         ResultSet resultSet;
         String sqlQuery = "SELECT field FROM PUBLIC.TEST";
 
@@ -49,7 +49,7 @@ public class DbDaoImpl implements Dao {
         return list;
     }
 
-    public void insertData(int n) throws Exception {
+    public void put(int n) throws Exception {
 
         Statement statementForInsertData = connection.createStatement();
         ArrayList<String> queries = new ArrayList<>();

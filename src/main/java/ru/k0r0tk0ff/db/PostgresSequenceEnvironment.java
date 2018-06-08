@@ -10,20 +10,20 @@ import java.sql.Statement;
 /**
  * Create teble (if not exist), truncate table
  */
-public class DaoEnvironmentCreatorImpl implements DaoEnvironmentCreator {
+public class PostgresSequenceEnvironment implements SequenceEnvironment {
 
     private Connection connection = null;
 
-    public DaoEnvironmentCreatorImpl(Connection connection) {
+    public PostgresSequenceEnvironment(Connection connection) {
         this.connection = connection;
     }
 
-    private static final Logger LOG  = LoggerFactory.getLogger(DaoEnvironmentCreatorImpl.class);
+    private static final Logger LOG  = LoggerFactory.getLogger(PostgresSequenceEnvironment.class);
 
     final private String createTable = "CREATE TABLE IF NOT EXISTS TEST (field INTEGER);";
     final private String truncateTable = "TRUNCATE TABLE public.TEST;";
 
-    public void truncateTable() {
+    public void clearSequence() {
         try {
             Statement statementForDrop = connection.createStatement();
             statementForDrop.execute(truncateTable);
@@ -38,7 +38,7 @@ public class DaoEnvironmentCreatorImpl implements DaoEnvironmentCreator {
         }
     }
 
-    public void createTableInDbIfTableNotExist() {
+    public void createSequenceInStorage() {
         try {
             Statement statementCreateTable = connection.createStatement();
             statementCreateTable.execute(createTable);

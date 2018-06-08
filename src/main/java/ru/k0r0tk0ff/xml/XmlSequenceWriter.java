@@ -8,15 +8,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Use for generate file with xml
  */
-public class XmlGeneratorImpl implements XmlGenerator {
+public class XmlSequenceWriter implements SequenceWriter {
 
-    public void generateXml(Collection<String> list) throws Exception{
+    public void write(Collection<String> list) throws Exception{
         String line;
         final XMLOutputFactory factory = XMLOutputFactory.newFactory();
         XMLStreamWriter writer = factory.createXMLStreamWriter(

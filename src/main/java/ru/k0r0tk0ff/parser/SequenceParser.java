@@ -5,6 +5,6 @@ import java.util.Collection;
 /**
  * Parse resource to data
  */
-public interface ParserResourceToData {
+public interface SequenceParser {
     Collection<Integer> parser(String resource) throws Exception;
 }

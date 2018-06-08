@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * Describe how to generate XML
  */
-public interface XmlGenerator {
+public interface SequenceWriter {
 
-    void generateXml(Collection<String> list) throws Exception;
+    void write(Collection<String> list) throws Exception;
 }

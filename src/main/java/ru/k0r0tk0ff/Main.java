@@ -69,20 +69,9 @@ public class Main {
             sum = starter.sumOfElements(starter.getDataFromResource("2.xml"));
 
             System.out.println("Sum = " + sum);
-        } catch (Exception e) {
+        } catch (Exception e1) {
             LOG.error(".......................................................................");
-            LOG.error(e.toString());
-            if (LOG.isDebugEnabled()) {
-                for (StackTraceElement s : e.getStackTrace()) {
-                    LOG.debug(s.toString());
-                }
-                // ??
-                // или просто оставить вместо блока выше if(LOG.isDebugEnabled()) следующее -
-                //e.printStackTrace();
-                // а так, ваще, если StackTraceElement в лог запихать,
-                // то красивый лог получается )))
-            }
-            LOG.error(".......................................................................");
+            LOG.error("Application error!", e1);
         } finally {
             if (connection != null)
                 try {
@@ -90,26 +79,15 @@ public class Main {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug(" Close connection success");
                     }
-                } catch (SQLException e1) {
+                } catch (SQLException e2) {
                     LOG.error(".......................................................................");
-                    LOG.error(e1.toString());
-                    if (LOG.isDebugEnabled()) {
-                        for (StackTraceElement s : e1.getStackTrace()) {
-                            LOG.debug(s.toString());
-                        }
-                    }
-
+                    LOG.error("Application error!", e2);
                     if (input != null) {
                         try {
                             input.close();
-                        } catch (IOException e) {
+                        } catch (IOException e3) {
                             LOG.error(".......................................................................");
-                            LOG.error(e.toString());
-                            if (LOG.isDebugEnabled()) {
-                                for (StackTraceElement s : e.getStackTrace()) {
-                                    LOG.debug(s.toString());
-                                }
-                            }
+                            LOG.error("Application error!", e3);
                         }
                     }
                 }

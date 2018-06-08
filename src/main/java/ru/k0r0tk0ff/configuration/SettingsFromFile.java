@@ -37,14 +37,12 @@ public class SettingsFromFile implements Settings {
 
         properties.load(reader);
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Load properties from file success ..............");
-            LOG.debug("key = jdbc.url       value = " + properties.getProperty("jdbc.url"));
-            LOG.debug("key = jdbc.login     value = " + properties.getProperty("jdbc.login"));
-            LOG.debug("key = jdbc.password  value = " + properties.getProperty("jdbc.password"));
-            LOG.debug("key = n              value = " + properties.getProperty("n"));
-            LOG.debug(".......................................................................");
-        }
+        LOG.debug("Load properties from file success ..............");
+        LOG.debug("key = jdbc.url       value = " + properties.getProperty("jdbc.url"));
+        LOG.debug("key = jdbc.login     value = " + properties.getProperty("jdbc.login"));
+        LOG.debug("key = jdbc.password  value = " + properties.getProperty("jdbc.password"));
+        LOG.debug("key = n              value = " + properties.getProperty("n"));
+        LOG.debug(".......................................................................");
     }
 
     public String getValue(String key) {

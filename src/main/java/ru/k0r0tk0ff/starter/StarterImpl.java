@@ -2,18 +2,17 @@ package ru.k0r0tk0ff.starter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.k0r0tk0ff.dao.Dao;
-import ru.k0r0tk0ff.dao.DbDaoImpl;
+import ru.k0r0tk0ff.dao.SequenceDao;
+import ru.k0r0tk0ff.dao.PostgresSequenceDao;
 import ru.k0r0tk0ff.db.*;
-import ru.k0r0tk0ff.parser.FileParser;
-import ru.k0r0tk0ff.parser.ParserResourceToData;
-import ru.k0r0tk0ff.xml.XmlGenerator;
-import ru.k0r0tk0ff.xml.XmlGeneratorImpl;
+import ru.k0r0tk0ff.parser.XmlSequenceParser;
+import ru.k0r0tk0ff.parser.SequenceParser;
+import ru.k0r0tk0ff.xml.SequenceWriter;
+import ru.k0r0tk0ff.xml.XmlSequenceWriter;
 import ru.k0r0tk0ff.xslt.XsltTransformer;
 import ru.k0r0tk0ff.xslt.XsltTransformerImpl;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Collection;
 
 /**
@@ -25,10 +24,10 @@ public class StarterImpl implements Starter{
     private String login;
     private String password;
     private Connection connection;
-    private DataResource dataResource = null;
+    private ConnectionDao dataResource = null;
 
     public Connection createConnectionToDb() {
-        this.dataResource = new DataResourceImpl(
+        this.dataResource = new ConnectionDaoImpl(
                 getUrl(),
                 getLogin(),
                 getPassword()
@@ -39,7 +38,7 @@ public class StarterImpl implements Starter{
 
     private static final Logger LOG  = LoggerFactory.getLogger(StarterImpl.class);
 
-    private Connection getConnection(DataResource dataResource) {
+    private Connection getConnection(ConnectionDao dataResource) {
         return dataResource.getConnection();
     }
 
@@ -77,21 +76,21 @@ public class StarterImpl implements Starter{
     }
 
     public void createTableIfNotExist(Connection connection) {
-        DaoEnvironmentCreator daoEnvCreatorImpl = new DaoEnvironmentCreatorImpl(connection);
-        daoEnvCreatorImpl.createTableInDbIfTableNotExist();
-        daoEnvCreatorImpl.truncateTable();
+        SequenceEnvironment daoEnvCreatorImpl = new PostgresSequenceEnvironment(connection);
+        daoEnvCreatorImpl.createSequenceInStorage();
+        daoEnvCreatorImpl.clearSequence();
     }
 
     public void uploadDataToTable(Connection connection) throws Exception{
-        Dao daoImpl = new DbDaoImpl(connection);
-        daoImpl.insertData(getN());
+        SequenceDao sequenceDaoImpl = new PostgresSequenceDao(connection);
+        sequenceDaoImpl.put(getN());
     }
 
     public Collection<String> getDataFromDb(Connection connection) throws Exception{
         Collection<String> list = null;
-        Dao dao = new DbDaoImpl(connection);
+        SequenceDao sequenceDao = new PostgresSequenceDao(connection);
 
-        list = dao.getData();
+        list = sequenceDao.get();
 
         if(LOG.isDebugEnabled()) {
             LOG.debug(" Get and convert data from db success ");
@@ -100,8 +99,8 @@ public class StarterImpl implements Starter{
     }
 
     public void generateXml(Collection<String> list) throws Exception {
-        XmlGenerator xmlGenerator = new XmlGeneratorImpl();
-        xmlGenerator.generateXml(list);
+        SequenceWriter sequenceWriter = new XmlSequenceWriter();
+        sequenceWriter.write(list);
         if (LOG.isDebugEnabled()) {
             LOG.debug(" Generate XML success");
         }
@@ -116,7 +115,7 @@ public class StarterImpl implements Starter{
     }
 
     public Collection<Integer> getDataFromResource(String resource) throws Exception{
-        ParserResourceToData parser = new FileParser();
+        SequenceParser parser = new XmlSequenceParser();
         Collection<Integer> parsedData = null;
 
             parsedData = parser.parser(resource);

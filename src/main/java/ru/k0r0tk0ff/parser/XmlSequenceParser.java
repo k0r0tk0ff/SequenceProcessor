@@ -11,15 +11,15 @@ import java.util.Collection;
 /**
  * Parse file to data
  */
-public class FileParser implements ParserResourceToData {
+public class XmlSequenceParser implements SequenceParser {
 
-    public Collection<Integer> parser(String filename) throws Exception{
-        Collection<Integer> parsedData = new ArrayList<>();
+    public Collection<Integer> parser(String sequenceXmlFilePath) throws Exception{
+        Collection<Integer> parsedSequence = new ArrayList<>();
 
         XMLInputFactory factory = XMLInputFactory.newInstance();
         XMLStreamReader parser;
         parser = factory.createXMLStreamReader(
-                    new BufferedInputStream(new FileInputStream(filename)));
+                    new BufferedInputStream(new FileInputStream(sequenceXmlFilePath)));
 
         while (parser.hasNext()) {
                 int event = parser.next();
@@ -28,12 +28,12 @@ public class FileParser implements ParserResourceToData {
                         String intValueInAttribute = parser.getAttributeValue(null, "field");
                         if (intValueInAttribute != null) {
                             //System.out.println(intValueInAttribute);
-                            parsedData.add(Integer.parseInt(intValueInAttribute));
+                            parsedSequence.add(Integer.parseInt(intValueInAttribute));
                         }
                     }
 
                 }
             }
-        return parsedData;
+        return parsedSequence;
     }
 }

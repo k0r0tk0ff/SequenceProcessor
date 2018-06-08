@@ -2,7 +2,7 @@ package ru.k0r0tk0ff.db;
 
 import java.sql.Connection;
 
-public interface DataResource {
+public interface ConnectionDao {
 
     Connection getConnection();
 

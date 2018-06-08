@@ -8,12 +8,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DataResourceImpl implements DataResource {
+public class ConnectionDaoImpl implements ConnectionDao {
     private String url;
     private String login;
     private String password;
 
-    public DataResourceImpl(String url, String login, String password) {
+    public ConnectionDaoImpl(String url, String login, String password) {
         this.url = url;
         this.login = login;
         this.password = password;
