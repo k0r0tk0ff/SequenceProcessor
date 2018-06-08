@@ -2,6 +2,7 @@ package ru.k0r0tk0ff.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.k0r0tk0ff.sequence.SequenceEnvironment;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,13 +13,20 @@ import java.util.Collection;
  */
 public class PostgresSequenceDao implements SequenceDao {
 
-    private static final Logger LOG  = LoggerFactory.getLogger(PostgresSequenceDao.class);
+    private SequenceEnvironment sequenceEnvironment;
 
     private Connection connection = null;
 
     public PostgresSequenceDao(Connection connection) {
         this.connection = connection;
     }
+
+    public PostgresSequenceDao(Connection connection, SequenceEnvironment sequenceEnvironment) {
+        this.connection = connection;
+        this.sequenceEnvironment = sequenceEnvironment;
+    }
+
+    private static final Logger LOG  = LoggerFactory.getLogger(PostgresSequenceDao.class);
 
     public Collection<String> get() throws Exception {
         ResultSet resultSet;
@@ -51,6 +59,9 @@ public class PostgresSequenceDao implements SequenceDao {
 
     public void put(int n) throws Exception {
 
+        sequenceEnvironment.clearSequence();
+        sequenceEnvironment.createSequenceInStorage();
+
         Statement statementForInsertData = connection.createStatement();
         ArrayList<String> queries = new ArrayList<>();
 
@@ -64,11 +75,7 @@ public class PostgresSequenceDao implements SequenceDao {
         statementForInsertData.executeBatch();
         statementForInsertData.close();
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(" Insert data success");
-        }
-
-
+        LOG.debug(" Insert data success");
     }
 }
 

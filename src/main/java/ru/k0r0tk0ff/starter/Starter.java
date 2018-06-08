@@ -14,8 +14,6 @@ public interface Starter {
 
     void setPassword(String password);
 
-    void createTableIfNotExist(Connection connection);
-
     void uploadDataToTable(Connection connection) throws Exception;
 
     Collection<String> getDataFromDb(Connection connection) throws Exception;

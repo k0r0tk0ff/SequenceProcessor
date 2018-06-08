@@ -52,8 +52,6 @@ public class Main {
             starter.setPassword(settings.getValue("jdbc.password"));
 
             connection = starter.createConnectionToDb();
-            starter.createTableIfNotExist(connection);
-            starter.createTableIfNotExist(connection);
             starter.uploadDataToTable(connection);
 
             //  Get converted data from DB

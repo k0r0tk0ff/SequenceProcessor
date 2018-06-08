@@ -7,6 +7,8 @@ import ru.k0r0tk0ff.dao.PostgresSequenceDao;
 import ru.k0r0tk0ff.db.*;
 import ru.k0r0tk0ff.parser.XmlSequenceParser;
 import ru.k0r0tk0ff.parser.SequenceParser;
+import ru.k0r0tk0ff.sequence.PostgresSequenceEnvironment;
+import ru.k0r0tk0ff.sequence.SequenceEnvironment;
 import ru.k0r0tk0ff.xml.SequenceWriter;
 import ru.k0r0tk0ff.xml.XmlSequenceWriter;
 import ru.k0r0tk0ff.xslt.XsltTransformer;
@@ -75,14 +77,15 @@ public class StarterImpl implements Starter{
         this.password = password;
     }
 
-    public void createTableIfNotExist(Connection connection) {
+/*    public void createTableIfNotExist(Connection connection) throws Exception{
         SequenceEnvironment daoEnvCreatorImpl = new PostgresSequenceEnvironment(connection);
         daoEnvCreatorImpl.createSequenceInStorage();
         daoEnvCreatorImpl.clearSequence();
-    }
+    }*/
 
     public void uploadDataToTable(Connection connection) throws Exception{
-        SequenceDao sequenceDaoImpl = new PostgresSequenceDao(connection);
+        SequenceEnvironment daoEnvCreatorImpl = new PostgresSequenceEnvironment(connection);
+        SequenceDao sequenceDaoImpl = new PostgresSequenceDao(connection, daoEnvCreatorImpl);
         sequenceDaoImpl.put(getN());
     }
 
