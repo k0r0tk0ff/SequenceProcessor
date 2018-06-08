@@ -6,5 +6,5 @@ import java.util.Collection;
  * Parse resource to data
  */
 public interface SequenceParser {
-    Collection<Integer> parser(String resource) throws Exception;
+    Collection<Integer> doParse(String resource) throws Exception;
 }

@@ -17,10 +17,6 @@ public class PostgresSequenceDao implements SequenceDao {
 
     private Connection connection = null;
 
-    public PostgresSequenceDao(Connection connection) {
-        this.connection = connection;
-    }
-
     public PostgresSequenceDao(Connection connection, SequenceEnvironment sequenceEnvironment) {
         this.connection = connection;
         this.sequenceEnvironment = sequenceEnvironment;

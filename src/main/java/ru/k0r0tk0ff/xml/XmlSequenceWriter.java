@@ -1,5 +1,9 @@
 package ru.k0r0tk0ff.xml;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.k0r0tk0ff.Main;
+
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.OutputKeys;
@@ -14,12 +18,21 @@ import java.util.Collection;
  * Use for generate file with xml
  */
 public class XmlSequenceWriter implements SequenceWriter {
+    String xmlFileName;
+    String xmlFileNameWithRawData;
+
+    public XmlSequenceWriter(String xmlFileName, String xmlFileNameWithRawData) {
+        this.xmlFileName = xmlFileName;
+        this.xmlFileNameWithRawData = xmlFileNameWithRawData;
+    }
+
+    private static final Logger LOG = LoggerFactory.getLogger(XmlSequenceWriter.class);
 
     public void write(Collection<String> list) throws Exception{
         String line;
         final XMLOutputFactory factory = XMLOutputFactory.newFactory();
         XMLStreamWriter writer = factory.createXMLStreamWriter(
-                new FileOutputStream("0.xml"), "UTF-8");
+                new FileOutputStream(xmlFileNameWithRawData), "UTF-8");
         writer.writeStartDocument("UTF-8", "1.0");
         writer.writeStartElement("entries");
         for (String aDbQueryResult : list) {
@@ -39,19 +52,20 @@ public class XmlSequenceWriter implements SequenceWriter {
         transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
         transformer.transform(new StreamSource(
-                        new BufferedInputStream(new FileInputStream("0.xml"))),
-                new StreamResult(new FileOutputStream("1.xml"))
+                        new BufferedInputStream(new FileInputStream(xmlFileNameWithRawData))),
+                new StreamResult(new FileOutputStream(xmlFileName))
         );
 
         StringBuilder stringBuilder = new StringBuilder();
         String ls = System.getProperty("line.separator");
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("1.xml"))) {
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
-            }
+        BufferedReader reader = new BufferedReader(new FileReader(xmlFileName));
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+            stringBuilder.append(ls);
         }
+
+        LOG.debug(" Write xml success");
     }
 }
 

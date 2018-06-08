@@ -1,5 +1,9 @@
 package ru.k0r0tk0ff.parser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.k0r0tk0ff.Main;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
@@ -13,7 +17,9 @@ import java.util.Collection;
  */
 public class XmlSequenceParser implements SequenceParser {
 
-    public Collection<Integer> parser(String sequenceXmlFilePath) throws Exception{
+    private static final Logger LOG = LoggerFactory.getLogger(XmlSequenceParser.class);
+
+    public Collection<Integer> doParse(String sequenceXmlFilePath) throws Exception{
         Collection<Integer> parsedSequence = new ArrayList<>();
 
         XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -27,13 +33,14 @@ public class XmlSequenceParser implements SequenceParser {
                     if (parser.getLocalName().equals("entry")) {
                         String intValueInAttribute = parser.getAttributeValue(null, "field");
                         if (intValueInAttribute != null) {
-                            //System.out.println(intValueInAttribute);
                             parsedSequence.add(Integer.parseInt(intValueInAttribute));
                         }
                     }
 
                 }
             }
+
+        LOG.debug(" Parse success");
         return parsedSequence;
     }
 }
