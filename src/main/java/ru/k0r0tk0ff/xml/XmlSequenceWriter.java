@@ -28,14 +28,14 @@ public class XmlSequenceWriter implements SequenceWriter {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlSequenceWriter.class);
 
-    public void write(Collection<String> list) throws Exception{
+    public void write(Collection<String> seqAsList) throws Exception{
         String line;
         final XMLOutputFactory factory = XMLOutputFactory.newFactory();
         XMLStreamWriter writer = factory.createXMLStreamWriter(
                 new FileOutputStream(xmlFileNameWithRawData), "UTF-8");
         writer.writeStartDocument("UTF-8", "1.0");
         writer.writeStartElement("entries");
-        for (String aDbQueryResult : list) {
+        for (String aDbQueryResult : seqAsList) {
             writer.writeStartElement("entry");
             writer.writeStartElement("field");
             writer.writeCharacters(aDbQueryResult);

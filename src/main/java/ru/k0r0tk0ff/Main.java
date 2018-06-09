@@ -105,9 +105,7 @@ public class Main {
                 Files.newBufferedReader(
                         Paths.get(getPropertiesFileName()),
                 Charset.forName("UTF-8")));
-        Settings settings = new SettingsFromFile(
-                getPropertiesFileName(),
-                getInputForProperties());
+        Settings settings = new SettingsFromFile(getInputForProperties());
         settings.load();
 
         setN(Integer.parseInt(settings.getValue("n")));

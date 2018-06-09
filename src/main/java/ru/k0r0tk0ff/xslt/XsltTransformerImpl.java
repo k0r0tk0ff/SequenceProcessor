@@ -2,7 +2,6 @@ package ru.k0r0tk0ff.xslt;
 
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
-import ru.k0r0tk0ff.xml.XmlSequenceWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -32,7 +31,6 @@ public class XsltTransformerImpl implements XsltTransformer {
         DocumentBuilder builder2 = factory.newDocumentBuilder();
         Document document2 = builder2.parse(datafile);
 
-        // Use a Transformer for output
         TransformerFactory tFactory = TransformerFactory.newInstance();
         StreamSource styleSource = new StreamSource(stylesheet);
 
@@ -45,5 +43,7 @@ public class XsltTransformerImpl implements XsltTransformer {
         DOMSource source = new DOMSource(document2);
 
         transformer.transform(source, new StreamResult(new FileOutputStream(resultXmlFileName)));
+
+        LOG.debug(" Transform success");
     }
 }

@@ -4,12 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
@@ -18,24 +12,19 @@ import java.util.Properties;
  */
 public class SettingsFromFile implements Settings {
 
-    private BufferedReader reader;
-    private String fileName;
+    private BufferedReader readerForSettingsInFile;
 
-    public SettingsFromFile(String fileName, BufferedReader reader) {
-        this.fileName = fileName;
-        this.reader = reader;
+    public SettingsFromFile(BufferedReader readerForSettingsInFile) {
+        this.readerForSettingsInFile = readerForSettingsInFile;
     }
 
     private Properties properties;
     private static final Logger LOG = LoggerFactory.getLogger(SettingsFromFile.class);
 
-    //For load from file in "resources" directory
-    //public void load(InputStream input) throws Exception {
-
     public void load() throws Exception {
         properties = new Properties();
 
-        properties.load(reader);
+        properties.load(readerForSettingsInFile);
 
         LOG.debug("Load properties from file success ..............");
         LOG.debug("key = jdbc.url       value = " + properties.getProperty("jdbc.url"));

@@ -53,7 +53,7 @@ public class PostgresSequenceDao implements SequenceDao {
         return list;
     }
 
-    public void put(int n) throws Exception {
+    public void put(int seqMaxValue) throws Exception {
 
         sequenceEnvironment.clearSequence();
         sequenceEnvironment.createSequenceInStorage();
@@ -61,7 +61,7 @@ public class PostgresSequenceDao implements SequenceDao {
         Statement statementForInsertData = connection.createStatement();
         ArrayList<String> queries = new ArrayList<>();
 
-        for (int i = 1; i < n + 1; i++) {
+        for (int i = 1; i < seqMaxValue + 1; i++) {
             queries.add(String.format("INSERT into TEST (field) VALUES ('%s')", i));
         }
 
