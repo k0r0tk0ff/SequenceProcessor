@@ -127,7 +127,7 @@ public class Main {
     }
 
     private Integer sumOfElements(Collection<Integer> data) {
-        return data.stream().reduce((s1,s2) -> s1+s2).orElse(0);
+        return data.parallelStream().reduce((s1,s2) -> s1+s2).orElse(0);
     }
 
     private void getAndWriteSequenceToFile(
