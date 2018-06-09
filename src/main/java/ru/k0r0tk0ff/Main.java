@@ -34,16 +34,21 @@ public class Main {
 
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
+    private static final String PROPERTIES_FILE_NAME = "parameters.properties";
+    private static final String XML_FILE_NAME_WITH_RAW_DATA = "0.xml";
+    private static final String XML_FILE_NAME = "1.xml";
+    private static final String XML_FILE_NAME_FOR_PARSE = "2.xml";
+    private static final String XSLT_FILE_NAME = "Transform.xslt";
+
+    /*
+     * Max element's value, and count of elements in sequence
+     */
     private int n;
+
     private String url;
     private String login;
     private String password;
-    private String propertiesFileName;
-    private String xsltFileName;
-    private String xmlFileName;
 
-    private String xmlFileNameWithRawData;
-    private String xmlFileNameForParse;
     private BufferedReader inputForProperties = null;
 
     public static void main(String[] args) {
@@ -54,7 +59,7 @@ public class Main {
 
         Main main = new Main();
         try {
-            main.loadProperties();
+            main.initialize();
             connection = main.getConnection();
 
             seqEnv = new PostgresSequenceEnvironment(connection);
@@ -62,13 +67,13 @@ public class Main {
 
             main.putSequenceToStorage(seqDaoImpl);
             main.getAndWriteSequenceToFile(
-                    main.getXmlFileName(),
-                    main.getXmlFileNameWithRawData(),
+                    XML_FILE_NAME,
+                    XML_FILE_NAME_WITH_RAW_DATA,
                     seqDaoImpl.get());
-            main.transformXmlFileWithUseXsltAndSave(main.getXmlFileName(),
-                    main.getXsltFileName(),
-                    main.getXmlFileNameForParse());
-            sum = main.sumOfElements(main.getParsedSequence(main.getXmlFileNameForParse()));
+            main.transformXmlFileWithUseXsltAndSave(XML_FILE_NAME,
+                    XSLT_FILE_NAME,
+                    XML_FILE_NAME_FOR_PARSE);
+            sum = main.sumOfElements(main.getParsedSequence(XML_FILE_NAME_FOR_PARSE));
 
             System.out.println("Sum = " + sum);
         } catch (Exception e1) {
@@ -94,16 +99,10 @@ public class Main {
         }
     }
 
-    private void loadProperties() throws Exception {
-        setPropertiesFileName("parameters.properties");
-        setXmlFileNameWithRawData("0.xml");
-        setXmlFileName("1.xml");
-        setXmlFileNameForParse("2.xml");
-        setXsltFileName("Transform.xslt");
-
+    private void initialize() throws Exception {
         setInputForProperties(
                 Files.newBufferedReader(
-                        Paths.get(getPropertiesFileName()),
+                        Paths.get(PROPERTIES_FILE_NAME),
                 Charset.forName("UTF-8")));
         Settings settings = new SettingsFromFile(getInputForProperties());
         settings.load();
@@ -162,38 +161,6 @@ public class Main {
         this.inputForProperties = inputForProperties;
     }
 
-    private String getPropertiesFileName() {
-        return propertiesFileName;
-    }
-
-    private void setPropertiesFileName(String propertiesFileName) {
-        this.propertiesFileName = propertiesFileName;
-    }
-
-    private String getXsltFileName() {
-        return xsltFileName;
-    }
-
-    private void setXsltFileName(String xsltFileName) {
-        this.xsltFileName = xsltFileName;
-    }
-
-    private String getXmlFileName() {
-        return xmlFileName;
-    }
-
-    private void setXmlFileName(String xmlFileName) {
-        this.xmlFileName = xmlFileName;
-    }
-
-    private String getXmlFileNameForParse() {
-        return xmlFileNameForParse;
-    }
-
-    private void setXmlFileNameForParse(String xmlFileNameForParse) {
-        this.xmlFileNameForParse = xmlFileNameForParse;
-    }
-
     private int getN() {
         return n;
     }
@@ -224,13 +191,5 @@ public class Main {
 
     private void setPassword(String password) {
         this.password = password;
-    }
-
-    private String getXmlFileNameWithRawData() {
-        return xmlFileNameWithRawData;
-    }
-
-    private void setXmlFileNameWithRawData(String xmlFileNameWithRawData) {
-        this.xmlFileNameWithRawData = xmlFileNameWithRawData;
     }
 }
