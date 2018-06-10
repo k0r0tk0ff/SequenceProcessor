@@ -58,20 +58,21 @@ public class PostgresSequenceDao implements SequenceDao {
         sequenceEnvironment.clearSequence();
         sequenceEnvironment.createSequenceInStorage();
 
-        Statement statementForInsertData = connection.createStatement();
-        ArrayList<String> queries = new ArrayList<>();
+        try(
+                PreparedStatement preparedStatement =
+                        connection.prepareStatement(
+                                "INSERT into TEST (field) VALUES (?)")) {
+            for (int i = 1; i < seqElementsCountAndMaxValue + 1; i++) {
+                preparedStatement.setInt(1, i);
+                preparedStatement.addBatch();
+                if (i % 5000 == 0) {
+                    preparedStatement.executeBatch();
+                }
+            }
 
-        for (int i = 1; i < seqElementsCountAndMaxValue + 1; i++) {
-            queries.add(String.format("INSERT into TEST (field) VALUES ('%s')", i));
+            preparedStatement.executeBatch();
+            LOG.debug(" Insert data success");
         }
-
-        for (String query : queries) {
-            statementForInsertData.addBatch(query);
-        }
-        statementForInsertData.executeBatch();
-        statementForInsertData.close();
-
-        LOG.debug(" Insert data success");
     }
 }
 
