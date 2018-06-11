@@ -7,7 +7,7 @@ import java.sql.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class PostgresSequenceDaoTest {
+public class PostgresSequenceImplDaoTest {
 
     private Connection getConnection() throws Exception {
         Connection connection = null;

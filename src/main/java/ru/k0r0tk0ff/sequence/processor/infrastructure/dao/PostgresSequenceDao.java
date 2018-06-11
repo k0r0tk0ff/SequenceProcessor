@@ -10,6 +10,7 @@ import java.util.Collection;
 
 public class PostgresSequenceDao implements SequenceDao {
 
+    private static final Logger LOG  = LoggerFactory.getLogger(PostgresSequenceDao.class);
     private SequenceEnvironment sequenceEnvironment;
     private Connection connection = null;
 
@@ -17,8 +18,6 @@ public class PostgresSequenceDao implements SequenceDao {
         this.connection = connection;
         this.sequenceEnvironment = sequenceEnvironment;
     }
-
-    private static final Logger LOG  = LoggerFactory.getLogger(PostgresSequenceDao.class);
 
     public Collection<String> get() throws Exception {
         ResultSet resultSet;

@@ -27,8 +27,6 @@ import java.util.Collection;
 
 /**
  * Created by k0r0tk0ff
- *
- * @since +1.8
  */
 public class Main {
 
