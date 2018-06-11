@@ -29,6 +29,10 @@ public class Main {
     private static final String XSLT_FILE_NAME = "Transform.xslt";
 
     public static void main(String[] args) {
+
+        //TODO Сделать ввод с клавы числа N
+
+
         try {
             PropertiesFileConfiguration.load(PROPERTIES_FILE_NAME);
             Configuration configuration = PropertiesFileConfiguration.getInstance();
@@ -52,7 +56,11 @@ public class Main {
         } catch (PropertiesFileLoadException e) {
             LOG.error(" Failed to read the property file! ", e);
         } catch (Exception e) {
-            //TODO: ДОДЕЛАТЬ
+            LOG.error(" Application error! ", e);
         }
+        //TODO Сделать обработку разных исключений
+        /*} catch (Exception e) {
+        LOG.error(" Application error! ", e);
+        }*/
     }
 }
