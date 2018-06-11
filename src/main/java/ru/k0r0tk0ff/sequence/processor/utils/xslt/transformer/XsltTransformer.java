@@ -1,8 +1,5 @@
-package ru.k0r0tk0ff.sequence.processor.xslt;
+package ru.k0r0tk0ff.sequence.processor.utils.xslt.transformer;
 
-/**
- * Work with XSLT data transformation
- */
 public interface XsltTransformer {
     void transform(String xmlFileName, String xsltFileName, String resultXmlFileName)
             throws Exception;

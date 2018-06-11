@@ -7,14 +7,14 @@ import ru.k0r0tk0ff.sequence.processor.infrastructure.configuration.SettingsFrom
 import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.PostgresSequenceDao;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.SequenceDao;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.db.ConnectionDaoImpl;
-import ru.k0r0tk0ff.sequence.processor.parser.SequenceParser;
-import ru.k0r0tk0ff.sequence.processor.parser.XmlSequenceParser;
-import ru.k0r0tk0ff.sequence.processor.sequence2.PostgresSequenceEnvironment;
-import ru.k0r0tk0ff.sequence.processor.sequence2.SequenceEnvironment;
+import ru.k0r0tk0ff.sequence.processor.utils.xml.parser.SequenceParser;
+import ru.k0r0tk0ff.sequence.processor.utils.xml.parser.XmlSequenceParser;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.environment.PostgresSequenceEnvironment;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.environment.SequenceEnvironment;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.writer.SequenceWriter;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.writer.XmlSequenceWriter;
-import ru.k0r0tk0ff.sequence.processor.xslt.XsltTransformer;
-import ru.k0r0tk0ff.sequence.processor.xslt.XsltTransformerImpl;
+import ru.k0r0tk0ff.sequence.processor.utils.xslt.transformer.XsltTransformer;
+import ru.k0r0tk0ff.sequence.processor.utils.xslt.transformer.XsltTransformerImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class Main {
     private static final String XSLT_FILE_NAME = "Transform.xslt";
 
     /*
-     * Max element's value, and count of elements in sequence2
+     * Max element's value, and count of elements in environment
      */
     private int n;
 

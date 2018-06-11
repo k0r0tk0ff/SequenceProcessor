@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.sequence.processor.xslt;
+package ru.k0r0tk0ff.sequence.processor.utils.xslt.transformer;
 
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -14,10 +14,6 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.io.FileOutputStream;
 
-
-/**
- * Transform writer file with use xslt-transformation
- */
 public class XsltTransformerImpl implements XsltTransformer {
 
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(XsltTransformerImpl.class);

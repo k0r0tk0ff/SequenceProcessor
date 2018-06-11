@@ -2,7 +2,7 @@ package ru.k0r0tk0ff.sequence.processor.infrastructure.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.k0r0tk0ff.sequence.processor.sequence2.SequenceEnvironment;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.environment.SequenceEnvironment;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -55,8 +55,8 @@ public class PostgresSequenceDao implements SequenceDao {
 
     public void put(int seqElementsCountAndMaxValue) throws Exception {
 
-        sequenceEnvironment.clearSequence();
-        sequenceEnvironment.createSequenceInStorage();
+        sequenceEnvironment.clearSequenceStorage();
+        sequenceEnvironment.createSequenceStorage();
 
         try(
                 PreparedStatement preparedStatement =
