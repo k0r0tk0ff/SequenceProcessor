@@ -6,16 +6,8 @@ import java.util.Collection;
 public class SequenceImpl implements Sequence {
     private Collection<Integer> collection;
     private int maxValue;
-    private int firstValue;
-    private int lastValue;
-
-    public SequenceImpl(Collection<Integer> collection) {
-        this.collection = collection;
-        this.maxValue = collection.size();
-    }
 
     private SequenceImpl(int maxValue) throws SeqenceException {
-
         if(maxValue == 0 || maxValue < 0 ) {
             throw new SeqenceException(" Entered max value is incorrect! ");
         }
@@ -24,22 +16,14 @@ public class SequenceImpl implements Sequence {
         for (int i = 1; i <= maxValue; i++) {
             collection.add(i);
         }
-    }
-
-    private SequenceImpl(int firstValue, int lastValue) {
-        this.firstValue = firstValue;
-        this.lastValue = lastValue;
+        this.collection = collection;
     }
 
     public Collection<Integer> get() {
         return collection;
     }
 
-    public int firstValue() {
-        return 1;
-    }
-
-    public int lastValue() {
+    public int getMaxValue() {
         return maxValue;
     }
 }
