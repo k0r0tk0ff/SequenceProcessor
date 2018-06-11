@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.sequence.processor.xml;
+package ru.k0r0tk0ff.sequence.processor.infrastructure.writer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import java.io.*;
 import java.util.Collection;
 
 /**
- * Use for generate file with xml
+ * Use for generate file with writer
  */
 public class XmlSequenceWriter implements SequenceWriter {
     String xmlFileName;
@@ -49,7 +49,7 @@ public class XmlSequenceWriter implements SequenceWriter {
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        transformer.setOutputProperty("{http://writer.apache.org/xslt}indent-amount", "2");
         transformer.transform(new StreamSource(
                         new BufferedInputStream(new FileInputStream(xmlFileNameWithRawData))),
                 new StreamResult(new FileOutputStream(xmlFileName))
@@ -64,7 +64,7 @@ public class XmlSequenceWriter implements SequenceWriter {
             stringBuilder.append(ls);
         }
 
-        LOG.debug(" Write xml success");
+        LOG.debug(" Write writer success");
     }
 }
 

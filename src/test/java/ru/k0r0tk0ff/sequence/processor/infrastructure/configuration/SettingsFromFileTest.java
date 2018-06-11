@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.sequence.processor.configuration;
+package ru.k0r0tk0ff.sequence.processor.infrastructure.configuration;
 
 import org.junit.Test;
 

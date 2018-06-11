@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.sequence.processor.dao;
+package ru.k0r0tk0ff.sequence.processor.infrastructure.dao;
 
 import org.junit.Test;
 

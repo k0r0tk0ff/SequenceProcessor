@@ -2,17 +2,17 @@ package ru.k0r0tk0ff;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.k0r0tk0ff.sequence.processor.configuration.Settings;
-import ru.k0r0tk0ff.sequence.processor.configuration.SettingsFromFile;
-import ru.k0r0tk0ff.sequence.processor.dao.PostgresSequenceDao;
-import ru.k0r0tk0ff.sequence.processor.dao.SequenceDao;
-import ru.k0r0tk0ff.sequence.processor.db.ConnectionDaoImpl;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.configuration.Settings;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.configuration.SettingsFromFile;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.PostgresSequenceDao;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.SequenceDao;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.db.ConnectionDaoImpl;
 import ru.k0r0tk0ff.sequence.processor.parser.SequenceParser;
 import ru.k0r0tk0ff.sequence.processor.parser.XmlSequenceParser;
 import ru.k0r0tk0ff.sequence.processor.sequence2.PostgresSequenceEnvironment;
 import ru.k0r0tk0ff.sequence.processor.sequence2.SequenceEnvironment;
-import ru.k0r0tk0ff.sequence.processor.xml.SequenceWriter;
-import ru.k0r0tk0ff.sequence.processor.xml.XmlSequenceWriter;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.writer.SequenceWriter;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.writer.XmlSequenceWriter;
 import ru.k0r0tk0ff.sequence.processor.xslt.XsltTransformer;
 import ru.k0r0tk0ff.sequence.processor.xslt.XsltTransformerImpl;
 
@@ -35,9 +35,9 @@ public class Main {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
     private static final String PROPERTIES_FILE_NAME = "parameters.properties";
-    private static final String XML_FILE_NAME_WITH_RAW_DATA = "0.xml";
-    private static final String XML_FILE_NAME = "1.xml";
-    private static final String XML_FILE_NAME_FOR_PARSE = "2.xml";
+    private static final String XML_FILE_NAME_WITH_RAW_DATA = "0.writer";
+    private static final String XML_FILE_NAME = "1.writer";
+    private static final String XML_FILE_NAME_FOR_PARSE = "2.writer";
     private static final String XSLT_FILE_NAME = "Transform.xslt";
 
     /*

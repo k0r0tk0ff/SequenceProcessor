@@ -16,7 +16,7 @@ import java.io.FileOutputStream;
 
 
 /**
- * Transform xml file with use xslt-transformation
+ * Transform writer file with use xslt-transformation
  */
 public class XsltTransformerImpl implements XsltTransformer {
 
@@ -37,7 +37,7 @@ public class XsltTransformerImpl implements XsltTransformer {
         Transformer transformer = tFactory.newTransformer(styleSource);
 
         //transformer.setParameter("format-pretty-print", true);
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","2");
+        transformer.setOutputProperty("{http://writer.apache.org/xslt}indent-amount","2");
         transformer.setOutputProperty(OutputKeys.STANDALONE,"yes");
 
         DOMSource source = new DOMSource(document2);
