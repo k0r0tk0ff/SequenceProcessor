@@ -24,7 +24,6 @@ public class PostgresSequenceDao implements SequenceDao {
         final String sqlQuery = "SELECT field FROM PUBLIC.TEST";
         resultSet = queryExecutor(sqlQuery);
         return dataConverter(resultSet);
-
     }
 
     private ResultSet queryExecutor(String sqlQuery) throws Exception{
@@ -45,13 +44,12 @@ public class PostgresSequenceDao implements SequenceDao {
     }
 
     public void put(int seqElementsCountAndMaxValue) throws Exception {
-
+        final String queryForPutData = "INSERT into TEST (field) VALUES (?)";
         sequenceEnvironment.clearSequenceStorage();
         sequenceEnvironment.createSequenceStorage();
         try(
                 PreparedStatement preparedStatement =
-                        connection.prepareStatement(
-                                "INSERT into TEST (field) VALUES (?)")) {
+                        connection.prepareStatement(queryForPutData)) {
             for (int i = 1; i < seqElementsCountAndMaxValue + 1; i++) {
                 preparedStatement.setInt(1, i);
                 preparedStatement.addBatch();
@@ -60,7 +58,7 @@ public class PostgresSequenceDao implements SequenceDao {
                 }
             }
             preparedStatement.executeBatch();
-            LOG.debug(" Insert data success");
+            LOG.debug("Insert data success");
         }
     }
 }

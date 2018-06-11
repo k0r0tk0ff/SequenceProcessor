@@ -1,8 +1,7 @@
 package ru.k0r0tk0ff.sequence.processor.infrastructure.writer;
 
-import java.util.Collection;
+import ru.k0r0tk0ff.sequence.processor.domain.Sequence;
 
 public interface SequenceWriter {
-
-    void write(Collection<String> list) throws Exception;
+    void write(Sequence sequence) throws Exception;
 }

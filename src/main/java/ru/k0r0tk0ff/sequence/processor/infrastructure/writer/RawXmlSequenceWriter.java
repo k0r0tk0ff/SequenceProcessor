@@ -2,6 +2,7 @@ package ru.k0r0tk0ff.sequence.processor.infrastructure.writer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.k0r0tk0ff.sequence.processor.domain.Sequence;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
@@ -13,31 +14,28 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.util.Collection;
 
-/**
- * Use for generate file with writer
- */
-public class XmlSequenceWriter implements SequenceWriter {
-    String xmlFileName;
-    String xmlFileNameWithRawData;
+public class RawXmlSequenceWriter implements SequenceWriter {
+    private static final Logger LOG = LoggerFactory.getLogger(RawXmlSequenceWriter.class);
+    private String pathToXmlSource;
+    private String pathToXmlTarget;
 
-    public XmlSequenceWriter(String xmlFileName, String xmlFileNameWithRawData) {
-        this.xmlFileName = xmlFileName;
-        this.xmlFileNameWithRawData = xmlFileNameWithRawData;
+    public RawXmlSequenceWriter(String pathToXmlSource, String pathToXmlTarget) {
+        this.pathToXmlSource = pathToXmlSource;
+        this.pathToXmlTarget = pathToXmlTarget;
     }
 
-    private static final Logger LOG = LoggerFactory.getLogger(XmlSequenceWriter.class);
-
-    public void write(Collection<String> seqAsList) throws Exception{
+    public void write(Sequence sequence) throws Exception {
         String line;
         final XMLOutputFactory factory = XMLOutputFactory.newFactory();
         XMLStreamWriter writer = factory.createXMLStreamWriter(
-                new FileOutputStream(xmlFileNameWithRawData), "UTF-8");
+                new FileOutputStream(pathToXmlTarget), "UTF-8");
         writer.writeStartDocument("UTF-8", "1.0");
         writer.writeStartElement("entries");
-        for (String aDbQueryResult : seqAsList) {
+        Collection<Integer> collection = sequence.get();
+        for (Integer aDbQueryResult : collection) {
             writer.writeStartElement("entry");
             writer.writeStartElement("field");
-            writer.writeCharacters(aDbQueryResult);
+            writer.writeCharacters(String.valueOf(aDbQueryResult));
             writer.writeEndElement();
             writer.writeEndElement();
         }
@@ -49,22 +47,22 @@ public class XmlSequenceWriter implements SequenceWriter {
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
-        transformer.setOutputProperty("{http://writer.apache.org/xslt}indent-amount", "2");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
         transformer.transform(new StreamSource(
-                        new BufferedInputStream(new FileInputStream(xmlFileNameWithRawData))),
-                new StreamResult(new FileOutputStream(xmlFileName))
+                        new BufferedInputStream(new FileInputStream(pathToXmlTarget))),
+                new StreamResult(new FileOutputStream(pathToXmlSource))
         );
 
         StringBuilder stringBuilder = new StringBuilder();
         String ls = System.getProperty("line.separator");
 
-        BufferedReader reader = new BufferedReader(new FileReader(xmlFileName));
+        BufferedReader reader = new BufferedReader(new FileReader(pathToXmlSource));
         while ((line = reader.readLine()) != null) {
             stringBuilder.append(line);
             stringBuilder.append(ls);
         }
 
-        LOG.debug(" Write writer success");
+        LOG.debug(" Write xml success");
     }
 }
 
