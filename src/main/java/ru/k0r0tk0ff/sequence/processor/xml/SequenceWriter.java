@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.xml;
+package ru.k0r0tk0ff.sequence.processor.xml;
 
 import java.util.Collection;
 

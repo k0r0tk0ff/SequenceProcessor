@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.db;
+package ru.k0r0tk0ff.sequence.processor.db;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.sequence;
+package ru.k0r0tk0ff.sequence.processor.sequence2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.xslt;
+package ru.k0r0tk0ff.sequence.processor.xslt;
 
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;

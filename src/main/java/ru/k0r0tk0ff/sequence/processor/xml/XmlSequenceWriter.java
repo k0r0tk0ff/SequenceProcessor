@@ -1,8 +1,7 @@
-package ru.k0r0tk0ff.xml;
+package ru.k0r0tk0ff.sequence.processor.xml;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.k0r0tk0ff.Main;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;

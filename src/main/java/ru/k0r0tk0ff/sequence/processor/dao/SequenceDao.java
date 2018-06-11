@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.dao;
+package ru.k0r0tk0ff.sequence.processor.dao;
 
 import java.util.Collection;
 

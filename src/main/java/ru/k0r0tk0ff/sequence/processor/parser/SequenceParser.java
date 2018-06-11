@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.parser;
+package ru.k0r0tk0ff.sequence.processor.parser;
 
 import java.util.Collection;
 

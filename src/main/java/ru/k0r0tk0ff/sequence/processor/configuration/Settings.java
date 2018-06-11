@@ -1,6 +1,4 @@
-package ru.k0r0tk0ff.configuration;
-
-import java.io.InputStream;
+package ru.k0r0tk0ff.sequence.processor.configuration;
 
 /**
  * Created by k0r0tk0ff

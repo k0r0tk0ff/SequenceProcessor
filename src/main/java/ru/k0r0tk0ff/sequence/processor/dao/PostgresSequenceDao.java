@@ -1,8 +1,8 @@
-package ru.k0r0tk0ff.dao;
+package ru.k0r0tk0ff.sequence.processor.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.k0r0tk0ff.sequence.SequenceEnvironment;
+import ru.k0r0tk0ff.sequence.processor.sequence2.SequenceEnvironment;
 
 import java.sql.*;
 import java.util.ArrayList;

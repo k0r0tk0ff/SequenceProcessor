@@ -2,19 +2,19 @@ package ru.k0r0tk0ff;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.k0r0tk0ff.configuration.Settings;
-import ru.k0r0tk0ff.configuration.SettingsFromFile;
-import ru.k0r0tk0ff.dao.PostgresSequenceDao;
-import ru.k0r0tk0ff.dao.SequenceDao;
-import ru.k0r0tk0ff.db.ConnectionDaoImpl;
-import ru.k0r0tk0ff.parser.SequenceParser;
-import ru.k0r0tk0ff.parser.XmlSequenceParser;
-import ru.k0r0tk0ff.sequence.PostgresSequenceEnvironment;
-import ru.k0r0tk0ff.sequence.SequenceEnvironment;
-import ru.k0r0tk0ff.xml.SequenceWriter;
-import ru.k0r0tk0ff.xml.XmlSequenceWriter;
-import ru.k0r0tk0ff.xslt.XsltTransformer;
-import ru.k0r0tk0ff.xslt.XsltTransformerImpl;
+import ru.k0r0tk0ff.sequence.processor.configuration.Settings;
+import ru.k0r0tk0ff.sequence.processor.configuration.SettingsFromFile;
+import ru.k0r0tk0ff.sequence.processor.dao.PostgresSequenceDao;
+import ru.k0r0tk0ff.sequence.processor.dao.SequenceDao;
+import ru.k0r0tk0ff.sequence.processor.db.ConnectionDaoImpl;
+import ru.k0r0tk0ff.sequence.processor.parser.SequenceParser;
+import ru.k0r0tk0ff.sequence.processor.parser.XmlSequenceParser;
+import ru.k0r0tk0ff.sequence.processor.sequence2.PostgresSequenceEnvironment;
+import ru.k0r0tk0ff.sequence.processor.sequence2.SequenceEnvironment;
+import ru.k0r0tk0ff.sequence.processor.xml.SequenceWriter;
+import ru.k0r0tk0ff.sequence.processor.xml.XmlSequenceWriter;
+import ru.k0r0tk0ff.sequence.processor.xslt.XsltTransformer;
+import ru.k0r0tk0ff.sequence.processor.xslt.XsltTransformerImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class Main {
     private static final String XSLT_FILE_NAME = "Transform.xslt";
 
     /*
-     * Max element's value, and count of elements in sequence
+     * Max element's value, and count of elements in sequence2
      */
     private int n;
 
