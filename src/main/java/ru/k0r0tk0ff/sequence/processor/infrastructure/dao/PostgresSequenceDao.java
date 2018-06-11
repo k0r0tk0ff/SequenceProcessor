@@ -8,13 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Need for read data from DB
- */
 public class PostgresSequenceDao implements SequenceDao {
 
     private SequenceEnvironment sequenceEnvironment;
-
     private Connection connection = null;
 
     public PostgresSequenceDao(Connection connection, SequenceEnvironment sequenceEnvironment) {
@@ -27,9 +23,7 @@ public class PostgresSequenceDao implements SequenceDao {
     public Collection<String> get() throws Exception {
         ResultSet resultSet;
         final String sqlQuery = "SELECT field FROM PUBLIC.TEST";
-
         resultSet = queryExecutor(sqlQuery);
-
         return dataConverter(resultSet);
 
     }
@@ -44,11 +38,9 @@ public class PostgresSequenceDao implements SequenceDao {
 
     private Collection<String> dataConverter(ResultSet resultSet) throws Exception {
         Collection<String> list = new ArrayList<>();
-
         while (resultSet.next()) {
             list.add(resultSet.getString(1));
         }
-
         resultSet.close();
         return list;
     }
@@ -57,7 +49,6 @@ public class PostgresSequenceDao implements SequenceDao {
 
         sequenceEnvironment.clearSequenceStorage();
         sequenceEnvironment.createSequenceStorage();
-
         try(
                 PreparedStatement preparedStatement =
                         connection.prepareStatement(
@@ -69,7 +60,6 @@ public class PostgresSequenceDao implements SequenceDao {
                     preparedStatement.executeBatch();
                 }
             }
-
             preparedStatement.executeBatch();
             LOG.debug(" Insert data success");
         }
