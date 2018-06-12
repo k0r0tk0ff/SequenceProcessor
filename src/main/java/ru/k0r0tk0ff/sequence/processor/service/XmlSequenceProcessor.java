@@ -37,7 +37,7 @@ public class XmlSequenceProcessor implements SequenceProcessor {
         doTransform();
         collectionAfterParse = doParse();
         sumResult = sum(collectionAfterParse);
-        System.out.println("Sum of sequences elements 1..." + maxValue + " is " + sumResult);
+        System.out.println("\nSum of sequence elements 1..." + maxValue + " is " + sumResult);
     }
 
     public void doSaveToStorage(int maxValue) throws Exception {

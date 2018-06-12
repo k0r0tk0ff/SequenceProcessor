@@ -3,13 +3,13 @@ package ru.k0r0tk0ff.sequence.processor.utils.input.sequense.parameters;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ConsoleInput implements InputInterface {
+public class ConsoleInput implements InputSequenceParameters {
 
     public Integer getMaxValue() throws ConsoleInputException {
         Integer maxValue;
         String errorText = "Entered max value is incorrect! Enter a positive integer greater than 0";
         Scanner scanner = new Scanner(System.in);
-        System.out.println(" Enter max value of sequence: ");
+        System.out.println("\nEnter max value of sequence: ");
         try {
             maxValue = scanner.nextInt();
             scanner.close();

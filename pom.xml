@@ -1,12 +1,13 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.k0r0tk0ff</groupId>
-	<artifactId>WorkWithXml</artifactId>
-    <version>1.0</version>
-    <name>WorkWithXml</name>
+	<artifactId>SequenceProcessor</artifactId>
+    <version>2.0</version>
+    <name>SequenceProcessor</name>
     <url>https://github.com/k0r0tk0ff/WorkWithXml</url>
 
     <properties>
+        <project.name>SequenceProcessor</project.name>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -64,7 +65,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <finalName>WorkWithXml-${project.version}</finalName>
+                    <finalName>${project.name}-${project.version}</finalName>
                     <archive>
                         <manifest>
                             <mainClass>ru.k0r0tk0ff.Main</mainClass>
