@@ -1,11 +1,11 @@
 package ru.k0r0tk0ff.sequence.processor.infrastructure.dao;
 
-import java.util.Collection;
+import ru.k0r0tk0ff.sequence.processor.domain.Sequence;
 
 public interface SequenceDao {
 
-    void put(int n) throws Exception;
+    void put(int n) throws PostgresSequenceDaoException;
 
-    Collection<String> get() throws Exception;
+    Sequence get() throws PostgresSequenceDaoException;
 
 }

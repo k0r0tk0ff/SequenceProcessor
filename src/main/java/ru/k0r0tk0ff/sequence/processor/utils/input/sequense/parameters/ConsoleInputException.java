@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.sequence.processor.utils.console;
+package ru.k0r0tk0ff.sequence.processor.utils.input.sequense.parameters;
 
 public class ConsoleInputException extends Exception {
     public ConsoleInputException() {

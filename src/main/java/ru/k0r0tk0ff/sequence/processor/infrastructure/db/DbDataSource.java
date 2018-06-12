@@ -17,15 +17,15 @@ public class DbDataSource implements DataSource {
 
     private Connection connection = null;
 
-    public Connection getConnection() throws DataSourceException {
+    public Connection getConnection() throws DbDataSourceException {
         try {
             connection = DriverManager.getConnection(
                         url,
                         login,
                         password);
             return connection;
-        } catch (Exception e) {
-            throw new DataSourceException(e);
+        } catch (SQLException e) {
+            throw new DbDataSourceException(e);
         }
     }
 }

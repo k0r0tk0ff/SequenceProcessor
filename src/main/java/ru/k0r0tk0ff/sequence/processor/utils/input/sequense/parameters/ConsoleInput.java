@@ -1,8 +1,8 @@
-package ru.k0r0tk0ff.sequence.processor.utils.console;
+package ru.k0r0tk0ff.sequence.processor.utils.input.sequense.parameters;
 
 import java.util.Scanner;
 
-public class ConsoleInput implements InputInteface {
+public class ConsoleInput implements InputInterface {
 
     public Integer getMaxValue() throws ConsoleInputException {
         Integer maxValue;
