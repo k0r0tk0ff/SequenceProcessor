@@ -1,24 +1,29 @@
 package ru.k0r0tk0ff.sequence.processor.utils.input.sequense.parameters;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsoleInput implements InputSequenceParameters {
 
-    public Integer getMaxValue() throws ConsoleInputException {
-        Integer maxValue;
+    public Integer getMaxValue() {
+        Integer maxValue = null;
+        boolean flag = false;
+        Scanner scanner;
         String errorMessage = "Entered max value is incorrect! Enter a positive integer greater than 0";
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nEnter max value of sequence: ");
-        try {
-            maxValue = scanner.nextInt();
-            scanner.close();
-            if(maxValue == 0 || maxValue < 0 ) {
-                throw new ConsoleInputException(errorMessage);
+        while (!flag) {
+            System.out.println("\nEnter max value of sequence: ");
+            scanner = new Scanner(System.in);
+            if (scanner.hasNextInt()) {
+                maxValue = scanner.nextInt();
+                if (maxValue == 0 || maxValue < 0) {
+                    System.out.println(errorMessage);
+                } else {
+                    scanner.close();
+                    flag = true;
+                }
+            } else {
+                System.out.println(errorMessage);
             }
-        } catch (InputMismatchException e) {
-            throw new ConsoleInputException(errorMessage);
         }
-        return  maxValue;
+        return maxValue;
     }
 }

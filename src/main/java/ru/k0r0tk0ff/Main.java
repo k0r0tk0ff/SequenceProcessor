@@ -27,6 +27,10 @@ public class Main {
     private static final String PATH_TO_XSLT_FILE = "Transform.xslt";
 
     public static void main(String[] args) {
+        Integer seqMaxValue;
+        InputSequenceParameters inputSequenceParameters = new ConsoleInput();
+        seqMaxValue = inputSequenceParameters.getMaxValue();
+
         try {
             PropertiesFileConfiguration.load(PATH_TO_PROPERTIES_FILE);
             Configuration configuration = PropertiesFileConfiguration.getInstance();
@@ -37,8 +41,6 @@ public class Main {
                                  configuration.getValue("jdbc.password")
                          ).getConnection()
             ) {
-                InputSequenceParameters inputSequenceParameters = new ConsoleInput();
-                Integer seqMaxValue = inputSequenceParameters.getMaxValue();
                 SequenceProcessor xmlSequenceProcessor =
                         new XmlSequenceProcessor(
                                 new PostgresSequenceDao(
