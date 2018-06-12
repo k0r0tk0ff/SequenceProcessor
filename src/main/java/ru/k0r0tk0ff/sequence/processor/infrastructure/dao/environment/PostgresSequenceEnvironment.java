@@ -34,7 +34,6 @@ public class PostgresSequenceEnvironment implements SequenceEnvironment {
         } catch (Exception e) {
             throw new SequenceEnvironmentException(e);
         }
-
     }
 
     private void executeStatement(String query) throws SQLException {

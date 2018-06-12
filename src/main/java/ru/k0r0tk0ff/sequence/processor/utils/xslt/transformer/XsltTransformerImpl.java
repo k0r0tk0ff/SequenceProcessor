@@ -26,20 +26,13 @@ public class XsltTransformerImpl implements XsltTransformer {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder2 = factory.newDocumentBuilder();
         Document document2 = builder2.parse(datafile);
-
         TransformerFactory tFactory = TransformerFactory.newInstance();
         StreamSource styleSource = new StreamSource(stylesheet);
-
         Transformer transformer = tFactory.newTransformer(styleSource);
-
-        //transformer.setParameter("format-pretty-print", true);
         transformer.setOutputProperty("{http://writer.apache.org/xslt}indent-amount","2");
         transformer.setOutputProperty(OutputKeys.STANDALONE,"yes");
-
         DOMSource source = new DOMSource(document2);
-
         transformer.transform(source, new StreamResult(new FileOutputStream(resultXmlFileName)));
-
         LOG.debug(" Transform success");
     }
 }

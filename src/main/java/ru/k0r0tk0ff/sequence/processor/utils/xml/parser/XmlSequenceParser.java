@@ -11,9 +11,6 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Parse file to data
- */
 public class XmlSequenceParser implements SequenceParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlSequenceParser.class);
@@ -35,7 +32,6 @@ public class XmlSequenceParser implements SequenceParser {
                             parsedSequence.add(Integer.parseInt(intValueInAttribute));
                         }
                     }
-
                 }
             }
 
