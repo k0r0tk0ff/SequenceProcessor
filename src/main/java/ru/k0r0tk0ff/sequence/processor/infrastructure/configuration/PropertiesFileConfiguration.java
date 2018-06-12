@@ -17,15 +17,15 @@ public class PropertiesFileConfiguration  implements Configuration {
         this.properties = properties;
     }
 
-    public static void load(String pathToFileProperties) throws PropertiesFileLoadException {
+    public static void load(String pathToFileWithProperties) throws PropertiesFileLoadException {
         if (propertiesFileConfiguration == null) {
-            File file = new File(pathToFileProperties);
+            File file = new File(pathToFileWithProperties);
             if (!file.exists()) {
-                String errorMessage = "File [" + pathToFileProperties + "] not exists";
+                String errorMessage = "File \"" + pathToFileWithProperties + "\" not exists";
                 LOG.error(errorMessage);
                 throw new PropertiesFileLoadException(errorMessage);
             }
-            try (InputStream inputStream = new FileInputStream(file);) {
+            try (InputStream inputStream = new FileInputStream(file)) {
                 Properties localProperties = new Properties();
                 localProperties.load(inputStream);
                 LOG.debug(">>> Load properties from file success");
@@ -41,7 +41,7 @@ public class PropertiesFileConfiguration  implements Configuration {
 
     public static  Configuration getInstance() {
         if (propertiesFileConfiguration == null) {
-            throw new IllegalArgumentException("Use method [load] for instance before use");
+            throw new IllegalArgumentException("Use method \"load\" for instance before use");
         }
         return propertiesFileConfiguration;
     }

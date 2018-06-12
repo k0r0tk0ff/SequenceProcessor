@@ -7,17 +7,17 @@ public class ConsoleInput implements InputSequenceParameters {
 
     public Integer getMaxValue() throws ConsoleInputException {
         Integer maxValue;
-        String errorText = "Entered max value is incorrect! Enter a positive integer greater than 0";
+        String errorMessage = "Entered max value is incorrect! Enter a positive integer greater than 0";
         Scanner scanner = new Scanner(System.in);
         System.out.println("\nEnter max value of sequence: ");
         try {
             maxValue = scanner.nextInt();
             scanner.close();
             if(maxValue == 0 || maxValue < 0 ) {
-                throw new ConsoleInputException(errorText);
+                throw new ConsoleInputException(errorMessage);
             }
         } catch (InputMismatchException e) {
-            throw new ConsoleInputException(errorText);
+            throw new ConsoleInputException(errorMessage);
         }
         return  maxValue;
     }
