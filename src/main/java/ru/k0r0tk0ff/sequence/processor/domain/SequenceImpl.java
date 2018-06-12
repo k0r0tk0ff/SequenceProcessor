@@ -8,9 +8,6 @@ public class SequenceImpl implements Sequence {
     private int maxValue;
 
     private SequenceImpl(int maxValue) throws SeqenceException {
-        if(maxValue == 0 || maxValue < 0 ) {
-            throw new SeqenceException(" Entered max value is incorrect! ");
-        }
         this.maxValue = maxValue;
         Collection<Integer> collection = new ArrayList<>();
         for (int i = 1; i <= maxValue; i++) {

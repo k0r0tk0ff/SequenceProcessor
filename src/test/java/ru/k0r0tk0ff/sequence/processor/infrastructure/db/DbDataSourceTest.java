@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class ConnectionDaoImplTest {
+public class DbDataSourceTest {
     @Test
     public void ConnectionTest() throws SQLException {
     Connection connection = null;
