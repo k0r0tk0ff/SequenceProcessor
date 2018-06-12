@@ -14,10 +14,12 @@ import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.environment.PostgresSe
 import ru.k0r0tk0ff.sequence.processor.infrastructure.writer.RawXmlSequenceWriter;
 import ru.k0r0tk0ff.sequence.processor.service.XmlSequenceProcessorException;
 import ru.k0r0tk0ff.sequence.processor.utils.input.sequense.parameters.ConsoleInput;
+import ru.k0r0tk0ff.sequence.processor.utils.input.sequense.parameters.ConsoleInputException;
 import ru.k0r0tk0ff.sequence.processor.utils.input.sequense.parameters.InputInterface;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 
 public class Main {
 
@@ -59,15 +61,8 @@ public class Main {
                                     PATH_TO_XML_FILE_FOR_PARSE
                             );
                     xmlSequenceProcessor.process(seqMaxValue);
-
-                } catch (XmlSequenceProcessorException e1) {
-                    LOG.error(" Application error! ", e1);
-                } catch (DbDataSourceException e2) {
-                    LOG.error(" Application error! ", e2);
-                } catch (SQLException e3) {
-                    LOG.error(" Application error! ", e3);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOG.error(" Application error! ", e);
                 }
         } catch (PropertiesFileLoadException e1) {
             LOG.error(" Failed to read the property file! ", e1);

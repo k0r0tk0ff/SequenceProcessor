@@ -32,7 +32,6 @@ public class PropertiesFileConfiguration  implements Configuration {
                 LOG.debug(" key = jdbc.url       value = " + localProperties.getProperty("jdbc.url"));
                 LOG.debug(" key = jdbc.login     value = " + localProperties.getProperty("jdbc.login"));
                 LOG.debug(" key = jdbc.password  value = " + localProperties.getProperty("jdbc.password"));
-                LOG.debug(" key = n              value = " + localProperties.getProperty("n"));
                 propertiesFileConfiguration = new PropertiesFileConfiguration(localProperties);
             } catch (Exception e) {
                 throw new PropertiesFileLoadException(e);
