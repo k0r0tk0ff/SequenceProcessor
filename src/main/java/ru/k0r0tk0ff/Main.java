@@ -6,8 +6,8 @@ import ru.k0r0tk0ff.sequence.processor.infrastructure.configuration.Configuratio
 import ru.k0r0tk0ff.sequence.processor.infrastructure.configuration.PropertiesFileConfiguration;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.PostgresSequenceDao;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.SequenceDaoException;
-import ru.k0r0tk0ff.sequence.processor.infrastructure.db.DbDataSource;
-import ru.k0r0tk0ff.sequence.processor.infrastructure.db.DataSourceException;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.data.source.DbDataSource;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.data.source.DataSourceException;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.writer.WriterException;
 import ru.k0r0tk0ff.sequence.processor.service.SequenceProcessor;
 import ru.k0r0tk0ff.sequence.processor.service.XmlSequenceProcessor;
@@ -32,6 +32,7 @@ public class Main {
     private static final String PATH_TO_XSLT_FILE = "Transform.xslt";
 
     public static void main(String[] args) {
+        final String dataSourceErrorMessage = " Failed to work with package \"datasource\" ! ";
         Integer seqMaxValue;
         InputSequenceParameters inputSequenceParameters = new ConsoleInput();
         seqMaxValue = inputSequenceParameters.getMaxValue();
@@ -61,18 +62,18 @@ public class Main {
                         );
                 xmlSequenceProcessor.process(seqMaxValue);
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOG.error(dataSourceErrorMessage, e);
             }
         } catch (DataSourceException e1) {
-            LOG.error(" Failed to work with DB ! ", e1);
+            LOG.error(dataSourceErrorMessage, e1);
         } catch (UtilsException e2) {
-            LOG.error(" Failed to work with Utils class(es) ! ", e2);
+            LOG.error(" Failed to work with package \"utils\" ! ", e2);
         } catch (WriterException e3) {
-            LOG.error(" Failed to work with sequence writer ! ", e3);
+            LOG.error(" Failed to work with package \"writer\"  ! ", e3);
         } catch (SequenceDaoException e4) {
-            LOG.error(" Failed to work with sequence dao class(es)! ", e4);
-        } catch (IOException e1) {
-            LOG.error(" Failed to read the property file! ", e1);
+            LOG.error(" Failed to work with package \"dao\" ! ", e4);
+        } catch (IOException e5) {
+            LOG.error(" Failed to read the property file! ", e5);
         }
     }
 }

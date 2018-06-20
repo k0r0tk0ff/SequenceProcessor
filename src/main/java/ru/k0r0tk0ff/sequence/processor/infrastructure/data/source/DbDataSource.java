@@ -1,4 +1,4 @@
-package ru.k0r0tk0ff.sequence.processor.infrastructure.db;
+package ru.k0r0tk0ff.sequence.processor.infrastructure.data.source;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
