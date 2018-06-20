@@ -3,8 +3,8 @@ package ru.k0r0tk0ff;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.configuration.Configuration;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.configuration.ConfigurationException;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.configuration.PropertiesFileConfiguration;
-import ru.k0r0tk0ff.sequence.processor.infrastructure.configuration.PropertiesFileLoadException;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.PostgresSequenceDao;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.db.DbDataSource;
 import ru.k0r0tk0ff.sequence.processor.service.SequenceProcessor;
@@ -14,6 +14,7 @@ import ru.k0r0tk0ff.sequence.processor.infrastructure.writer.RawXmlSequenceWrite
 import ru.k0r0tk0ff.sequence.processor.utils.input.sequense.parameters.ConsoleInput;
 import ru.k0r0tk0ff.sequence.processor.utils.input.sequense.parameters.InputSequenceParameters;
 
+import java.io.IOException;
 import java.sql.Connection;
 
 public class Main {
@@ -57,8 +58,9 @@ public class Main {
                 xmlSequenceProcessor.process(seqMaxValue);
             } catch (Exception e) {
                 LOG.error(" Application error! ", e);
+
             }
-        } catch (PropertiesFileLoadException e1) {
+        } catch (IOException e1) {
             LOG.error(" Failed to read the property file! ", e1);
         }
     }

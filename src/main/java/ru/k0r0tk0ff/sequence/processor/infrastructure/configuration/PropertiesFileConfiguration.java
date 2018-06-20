@@ -3,9 +3,7 @@ package ru.k0r0tk0ff.sequence.processor.infrastructure.configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
 public class PropertiesFileConfiguration  implements Configuration {
@@ -13,17 +11,17 @@ public class PropertiesFileConfiguration  implements Configuration {
     private static PropertiesFileConfiguration propertiesFileConfiguration;
     private Properties properties;
 
-    private PropertiesFileConfiguration(Properties properties) throws ConfigurationException {
+    private PropertiesFileConfiguration(Properties properties) throws IOException {
         this.properties = properties;
     }
 
-    public static void load(String pathToFileWithProperties) throws PropertiesFileLoadException {
+    public static void load(String pathToFileWithProperties) throws IOException {
         if (propertiesFileConfiguration == null) {
             File file = new File(pathToFileWithProperties);
             if (!file.exists()) {
                 String errorMessage = "File \"" + pathToFileWithProperties + "\" not exists";
                 LOG.error(errorMessage);
-                throw new PropertiesFileLoadException(errorMessage);
+                throw new IOException(errorMessage);
             }
             try (InputStream inputStream = new FileInputStream(file)) {
                 Properties localProperties = new Properties();
@@ -33,8 +31,8 @@ public class PropertiesFileConfiguration  implements Configuration {
                 LOG.debug(" key = jdbc.login     value = " + localProperties.getProperty("jdbc.login"));
                 LOG.debug(" key = jdbc.password  value = " + localProperties.getProperty("jdbc.password"));
                 propertiesFileConfiguration = new PropertiesFileConfiguration(localProperties);
-            } catch (Exception e) {
-                throw new PropertiesFileLoadException(e);
+            } catch (IOException e) {
+                throw new IOException(e);
             }
         }
     }
