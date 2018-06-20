@@ -4,8 +4,8 @@ import ru.k0r0tk0ff.sequence.processor.domain.Sequence;
 
 public interface SequenceDao {
 
-    void put(int n) throws PostgresSequenceDaoException;
+    void put(int n) throws SequenceDaoException;
 
-    Sequence get() throws PostgresSequenceDaoException;
+    Sequence get() throws SequenceDaoException;
 
 }

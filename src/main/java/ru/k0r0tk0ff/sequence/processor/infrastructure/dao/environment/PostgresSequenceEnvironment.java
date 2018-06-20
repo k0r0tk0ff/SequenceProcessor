@@ -2,6 +2,7 @@ package ru.k0r0tk0ff.sequence.processor.infrastructure.dao.environment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.SequenceDaoException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,21 +19,21 @@ public class PostgresSequenceEnvironment implements SequenceEnvironment {
         this.connection = connection;
     }
 
-    public void createSequenceStorage() throws SequenceEnvironmentException {
+    public void createSequenceStorage() throws SequenceDaoException {
         try {
             executeStatement(CREATE_TABLE);
             LOG.debug(" Create table (if table exist - do not create) success ");
-        } catch (Exception e) {
-            throw new SequenceEnvironmentException(e);
+        } catch (SQLException e) {
+            throw new SequenceDaoException(e);
         }
     }
 
-    public void clearSequenceStorage() throws SequenceEnvironmentException {
+    public void clearSequenceStorage() throws SequenceDaoException {
         try {
             executeStatement(TRUNCATE_TABLE);
             LOG.debug(" Truncate table success ");
-        } catch (Exception e) {
-            throw new SequenceEnvironmentException(e);
+        } catch (SQLException e) {
+            throw new SequenceDaoException(e);
         }
     }
 

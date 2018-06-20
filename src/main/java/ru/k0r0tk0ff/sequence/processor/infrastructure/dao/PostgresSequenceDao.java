@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import ru.k0r0tk0ff.sequence.processor.domain.Sequence;
 import ru.k0r0tk0ff.sequence.processor.domain.SequenceImpl;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.environment.SequenceEnvironment;
-import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.environment.SequenceEnvironmentException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class PostgresSequenceDao implements SequenceDao {
         this.sequenceEnvironment = sequenceEnvironment;
     }
 
-    public Sequence get() throws PostgresSequenceDaoException {
+    public Sequence get() throws SequenceDaoException {
         final String sqlQueryForGet = "SELECT field FROM PUBLIC.TEST";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQueryForGet)) {
             try (ResultSet resultSet = preparedStatement.executeQuery();) {
@@ -33,32 +32,29 @@ public class PostgresSequenceDao implements SequenceDao {
                 return new SequenceImpl(collection);
             }
         } catch (SQLException e) {
-            throw new PostgresSequenceDaoException();
+            throw new SequenceDaoException();
         }
     }
 
-    public void put(int seqElementsCountAndMaxValue) throws PostgresSequenceDaoException {
+    public void put(int seqElementsCountAndMaxValue) throws SequenceDaoException {
         final String queryForPutData = "INSERT into TEST (field) VALUES (?)";
-        try {
-            sequenceEnvironment.clearSequenceStorage();
-            sequenceEnvironment.createSequenceStorage();
-            try (
-                    PreparedStatement preparedStatement =
-                            connection.prepareStatement(queryForPutData)) {
-                for (int i = 1; i < seqElementsCountAndMaxValue + 1; i++) {
-                    preparedStatement.setInt(1, i);
-                    preparedStatement.addBatch();
-                    if (i % 5000 == 0) {
-                        preparedStatement.executeBatch();
-                    }
+
+        sequenceEnvironment.clearSequenceStorage();
+        sequenceEnvironment.createSequenceStorage();
+        try (
+                PreparedStatement preparedStatement =
+                        connection.prepareStatement(queryForPutData)) {
+            for (int i = 1; i < seqElementsCountAndMaxValue + 1; i++) {
+                preparedStatement.setInt(1, i);
+                preparedStatement.addBatch();
+                if (i % 5000 == 0) {
+                    preparedStatement.executeBatch();
                 }
-                preparedStatement.executeBatch();
-                LOG.debug("Insert data success");
-            } catch (SQLException e2) {
-                throw new PostgresSequenceDaoException();
             }
-        } catch (SequenceEnvironmentException e) {
-            throw new PostgresSequenceDaoException();
+            preparedStatement.executeBatch();
+            LOG.debug("Insert data success");
+        } catch (SQLException e2) {
+            throw new SequenceDaoException();
         }
     }
 }

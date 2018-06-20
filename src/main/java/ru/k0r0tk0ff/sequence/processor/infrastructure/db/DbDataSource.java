@@ -17,7 +17,7 @@ public class DbDataSource implements DataSource {
 
     private Connection connection = null;
 
-    public Connection getConnection() throws DbDataSourceException {
+    public Connection getConnection() throws DataSourceException {
         try {
             connection = DriverManager.getConnection(
                         url,
@@ -25,7 +25,7 @@ public class DbDataSource implements DataSource {
                         password);
             return connection;
         } catch (SQLException e) {
-            throw new DbDataSourceException(e);
+            throw new DataSourceException(e);
         }
     }
 }

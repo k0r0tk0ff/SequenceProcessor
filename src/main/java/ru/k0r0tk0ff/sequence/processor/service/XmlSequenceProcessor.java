@@ -1,8 +1,11 @@
 package ru.k0r0tk0ff.sequence.processor.service;
 
 import ru.k0r0tk0ff.sequence.processor.domain.Sequence;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.SequenceDaoException;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.SequenceDao;
 import ru.k0r0tk0ff.sequence.processor.infrastructure.writer.SequenceWriter;
+import ru.k0r0tk0ff.sequence.processor.infrastructure.writer.WriterException;
+import ru.k0r0tk0ff.sequence.processor.utils.UtilsException;
 import ru.k0r0tk0ff.sequence.processor.utils.xml.parser.SequenceParser;
 import ru.k0r0tk0ff.sequence.processor.utils.xml.parser.XmlSequenceParser;
 import ru.k0r0tk0ff.sequence.processor.utils.xslt.transformer.XsltTransformer;
@@ -29,7 +32,10 @@ public class XmlSequenceProcessor implements SequenceProcessor {
         this.pathToResultXmlFile = pathToResultXmlFile;
     }
 
-    public void process(int maxValue) throws Exception {
+    public void process(int maxValue) throws
+            SequenceDaoException,
+            WriterException,
+            UtilsException{
         long sumResult;
         Collection<Integer> collectionAfterParse;
         doSaveToStorage(maxValue);
@@ -40,21 +46,21 @@ public class XmlSequenceProcessor implements SequenceProcessor {
         System.out.println("\nSum of sequence elements 1..." + maxValue + " is " + sumResult);
     }
 
-    public void doSaveToStorage(int maxValue) throws Exception {
+    public void doSaveToStorage(int maxValue) throws SequenceDaoException {
         sequenceDao.put(maxValue);
     }
 
-    public void doCreateXml() throws Exception {
+    public void doCreateXml() throws WriterException, SequenceDaoException {
         Sequence sequence = sequenceDao.get();
         sequenceWriter.write(sequence);
     }
 
-    public void doTransform() throws Exception {
+    public void doTransform() throws UtilsException {
         XsltTransformer xsltTransformer = new XsltTransformerImpl();
         xsltTransformer.transform(pathToXmlSource, pathToXsltTemplateFile, pathToResultXmlFile);
     }
 
-    public Collection<Integer> doParse() throws Exception {
+    public Collection<Integer> doParse() throws UtilsException {
         SequenceParser parser = new XmlSequenceParser();
         return parser.doParse(pathToResultXmlFile);
     }
