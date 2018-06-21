@@ -41,7 +41,7 @@
 
 
    1) Отредактировать файл настроек "parameters.properties" для подключения к базе данных.
-   2) Собрать jar-file (пример для консоли - "mvm package")       
+   2) Собрать jar-file (пример для консоли - "mvn package")       
    3) Запустить собранный jar-file "*jar-with-dependencies.jar" из папки "target"
 предварительно разместив файлы "parameters.properties" и "Transform.xslt" 
 в одной c ним директории. 
