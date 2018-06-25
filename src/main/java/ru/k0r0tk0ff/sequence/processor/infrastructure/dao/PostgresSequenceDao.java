@@ -32,7 +32,7 @@ public class PostgresSequenceDao implements SequenceDao {
                 return new SequenceImpl(collection);
             }
         } catch (SQLException e) {
-            throw new SequenceDaoException();
+            throw new SequenceDaoException(e);
         }
     }
 
@@ -54,7 +54,7 @@ public class PostgresSequenceDao implements SequenceDao {
             preparedStatement.executeBatch();
             LOG.debug("Insert data success");
         } catch (SQLException e2) {
-            throw new SequenceDaoException();
+            throw new SequenceDaoException(e2);
         }
     }
 }

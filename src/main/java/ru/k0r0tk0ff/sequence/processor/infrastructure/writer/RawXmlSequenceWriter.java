@@ -61,7 +61,7 @@ public class RawXmlSequenceWriter implements SequenceWriter {
                 stringBuilder.append(ls);
             }
         } catch (XMLStreamException | TransformerException | IOException e) {
-            throw new WriterException();
+            throw new WriterException(e);
         }
         LOG.debug(" Write xml success");
     }

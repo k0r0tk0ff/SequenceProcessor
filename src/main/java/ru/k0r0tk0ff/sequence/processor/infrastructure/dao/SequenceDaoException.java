@@ -1,6 +1,10 @@
 package ru.k0r0tk0ff.sequence.processor.infrastructure.dao;
 
 public class SequenceDaoException extends Exception {
+      public SequenceDaoException(Throwable cause) {
+        super(cause);
+    }
+
     public SequenceDaoException() {
         super();
     }
@@ -11,10 +15,6 @@ public class SequenceDaoException extends Exception {
 
     public SequenceDaoException(String message, Throwable cause) {
         super(message, cause);
-    }
-
-    public SequenceDaoException(Throwable cause) {
-        super(cause);
     }
 
     protected SequenceDaoException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
