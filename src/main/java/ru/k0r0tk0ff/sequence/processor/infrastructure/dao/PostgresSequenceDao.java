@@ -9,6 +9,7 @@ import ru.k0r0tk0ff.sequence.processor.infrastructure.dao.environment.SequenceEn
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class PostgresSequenceDao implements SequenceDao {
 
@@ -41,8 +42,8 @@ public class PostgresSequenceDao implements SequenceDao {
 
         sequenceEnvironment.clearSequenceStorage();
         sequenceEnvironment.createSequenceStorage();
-        try (
-                PreparedStatement preparedStatement =
+
+        try (PreparedStatement preparedStatement =
                         connection.prepareStatement(queryForPutData)) {
             for (int i = 1; i < seqElementsCountAndMaxValue + 1; i++) {
                 preparedStatement.setInt(1, i);
@@ -51,7 +52,10 @@ public class PostgresSequenceDao implements SequenceDao {
                     preparedStatement.executeBatch();
                 }
             }
+
+            // Additional executeBatch() need for process "tail" from sequence
             preparedStatement.executeBatch();
+
             LOG.debug("Insert data success");
         } catch (SQLException e2) {
             throw new SequenceDaoException(e2);

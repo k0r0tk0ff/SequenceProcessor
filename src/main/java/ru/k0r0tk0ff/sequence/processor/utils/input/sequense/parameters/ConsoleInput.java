@@ -8,7 +8,7 @@ public class ConsoleInput implements InputSequenceParameters {
         Integer maxValue = null;
         boolean flag = false;
         Scanner scanner;
-        String errorMessage = "Entered max value is incorrect! Enter a positive integer greater than 0";
+        String errorMessage = "Entered max value is incorrect! Enter a positive integer more than 0";
         while (!flag) {
             System.out.println("\nEnter max value of sequence: ");
             scanner = new Scanner(System.in);

@@ -36,44 +36,59 @@ public class Main {
         Integer seqMaxValue;
         InputSequenceParameters inputSequenceParameters = new ConsoleInput();
         seqMaxValue = inputSequenceParameters.getMaxValue();
+        Connection connection = null;
 
         try {
             PropertiesFileConfiguration.load(PATH_TO_PROPERTIES_FILE);
             Configuration configuration = PropertiesFileConfiguration.getInstance();
-            try (Connection connection =
-                         new DbDataSource(
-                                 configuration.getValue("jdbc.url"),
-                                 configuration.getValue("jdbc.login"),
-                                 configuration.getValue("jdbc.password")
-                         ).getConnection()
-            ) {
-                SequenceProcessor xmlSequenceProcessor =
-                        new XmlSequenceProcessor(
-                                new PostgresSequenceDao(
-                                        connection,
-                                        new PostgresSequenceEnvironment(connection)
-                                ),
-                                new RawXmlSequenceWriter(
-                                        PATH_TO_XML_FILE_WITH_RAW_DATA,
-                                        PATH_TO_XML_FILE),
-                                PATH_TO_XML_FILE,
-                                PATH_TO_XSLT_FILE,
-                                PATH_TO_XML_FILE_FOR_PARSE
-                        );
-                xmlSequenceProcessor.process(seqMaxValue);
-            } catch (SQLException e) {
-                LOG.error(dataSourceErrorMessage, e);
-            }
+            connection = new DbDataSource(
+                            configuration.getValue("jdbc.url"),
+                            configuration.getValue("jdbc.login"),
+                            configuration.getValue("jdbc.password")
+                    ).getConnection();
+
+            SequenceProcessor xmlSequenceProcessor =
+                    new XmlSequenceProcessor(
+                            new PostgresSequenceDao(
+                                    connection,
+                                    new PostgresSequenceEnvironment(connection)
+                            ),
+                            new RawXmlSequenceWriter(
+                                    PATH_TO_XML_FILE_WITH_RAW_DATA,
+                                    PATH_TO_XML_FILE),
+                            PATH_TO_XML_FILE,
+                            PATH_TO_XSLT_FILE,
+                            PATH_TO_XML_FILE_FOR_PARSE
+                    );
+            xmlSequenceProcessor.process(seqMaxValue);
+            connection.commit();
         } catch (DataSourceException e1) {
-            LOG.error(dataSourceErrorMessage, e1);
+             LOG.error(dataSourceErrorMessage, e1);
         } catch (UtilsException e2) {
             LOG.error(" Failed to work with package \"utils\" ! ", e2);
         } catch (WriterException e3) {
             LOG.error(" Failed to work with package \"writer\"  ! ", e3);
         } catch (SequenceDaoException e4) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    LOG.error(" Failed to rollback connection! ", e);
+                }
+            }
             LOG.error(" Failed to work with package \"dao\" ! ", e4);
         } catch (IOException e5) {
             LOG.error(" Failed to read the property file! ", e5);
+        } catch (SQLException e7) {
+            LOG.error(" Cannot commit! ", e7);
+        } finally {
+            if(connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e6) {
+                    LOG.error(" Failed to close connection ! ", e6);
+                }
+            }
         }
     }
 }

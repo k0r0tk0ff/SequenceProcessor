@@ -23,6 +23,7 @@ public class DbDataSource implements DataSource {
                         url,
                         login,
                         password);
+            connection.setAutoCommit(false);
             return connection;
         } catch (SQLException e) {
             throw new DataSourceException(e);
