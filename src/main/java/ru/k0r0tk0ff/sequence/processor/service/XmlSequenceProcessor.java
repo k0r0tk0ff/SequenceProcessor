@@ -66,6 +66,6 @@ public class XmlSequenceProcessor implements SequenceProcessor {
     }
 
     public long sum(Collection<Integer> collection) {
-        return collection.stream().reduce((s1,s2) -> s1+s2).orElse(0);
+        return collection.stream().mapToInt(i -> i).sum();
     }
 }
